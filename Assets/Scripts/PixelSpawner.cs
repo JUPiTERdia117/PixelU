@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PixelSpawner : MonoBehaviour
 {
+
+    [SerializeField] GameObject[] prefabsPixel;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +18,14 @@ public class PixelSpawner : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void SpawnPixel(){
+        if (prefabsPixel.Length == 0) return;
+
+        int randomIndex = Random.Range(0, prefabsPixel.Length); // Elegir un índice aleatorio
+        GameObject randomObject = prefabsPixel[randomIndex]; // Obtener el objeto correspondiente
+
+        Instantiate(randomObject, transform.position, Quaternion.identity); // Instanciar el objeto
     }
 }
