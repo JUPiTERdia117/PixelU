@@ -20,7 +20,7 @@ public class PixelSpawner : MonoBehaviour
         
     }
 
-    void SpawnPixel(){
+    public void SpawnPixel(){
         if (prefabsPixel.Length == 0) return;
 
         int randomIndex = Random.Range(0, prefabsPixel.Length); // Elegir un índice aleatorio
