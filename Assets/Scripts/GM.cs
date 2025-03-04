@@ -49,8 +49,12 @@ public class GM : MonoBehaviour
             else{
                 Debug.LogWarning("No hay la suficiente cantidad de spawns");
             }
+
+            InvokeRepeating("CrearPixel", 3f, tAparicion);
             
         }
+
+
 
         
 
@@ -67,17 +71,19 @@ public class GM : MonoBehaviour
 
         segundosTotales = (minutos*60 + segundos);
 
-        Debug.Log(segundosTotales);
+        
         if(segundosTotales<tL1){
 
+            /*
             //Cada 3 segundos
-            if(segundosTotales%3 == 0 && currentPixels<spawnQuantity){
+            if(segundosTotales%3.0f == 0.0f ){
                 Debug.Log("Apareciendo pixel");
 
                 CrearPixel();
 
 
             }
+            */
 
         }
 
@@ -94,6 +100,8 @@ public class GM : MonoBehaviour
                 if(hit.collider.tag == "Enemy"){
                     PixelController pController = hit.collider.gameObject.GetComponent<PixelController>();
                     pController.DestruirPixel();
+                    currentPixels--;
+                    //SP_List.Add();
                 }
             }
         }
@@ -101,17 +109,32 @@ public class GM : MonoBehaviour
     }
 
     void CrearPixel(){
-        Debug.Log("Creando pixel...");
-        int randomIndex = Random.Range(0, SP_List.Count); // Elegir un índice aleatorio
-        GameObject randomObject = SP_List[randomIndex]; // Obtener el objeto correspondiente
 
-        pixelSP = randomObject.GetComponent<PixelSpawner>();
+        
 
-        pixelSP.SpawnPixel();
 
-        SP_List.RemoveAt(randomIndex);
+        if(currentPixels<spawnPoints.Length)
+        {
+            Debug.Log("Creando pixel...");
 
-        currentPixels++;
+
+            int randomIndex = Random.Range(0, SP_List.Count); // Elegir un índice aleatorio
+            GameObject randomObject = SP_List[randomIndex]; // Obtener el objeto correspondiente
+
+            pixelSP = randomObject.GetComponent<PixelSpawner>();
+
+            pixelSP.SpawnPixel();
+
+            SP_List.RemoveAt(randomIndex);
+
+            currentPixels++;
+        }
+        else{
+            Debug.LogWarning("Cantidad máxima de pixeles");
+        }
+
+
+
     }
 
     
