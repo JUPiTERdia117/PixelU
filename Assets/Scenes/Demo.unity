@@ -1006,13 +1006,14 @@ MonoBehaviour:
   - {fileID: 182466690}
   - {fileID: 517978347}
   - {fileID: 93843830}
-  tL1: 32
+  tL1: 120
   tL2: 0
   tL3: 0
   tDescanso: 0
   tL4: 0
   tiempoADA: 0
-  tAparicion: 0
+  level1Q: 4
+  tAparicion: 2
   tDesaparicion: 0
 --- !u!4 &1385471962
 Transform:

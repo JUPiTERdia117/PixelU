@@ -26,6 +26,6 @@ public class PixelSpawner : MonoBehaviour
         int randomIndex = Random.Range(0, prefabsPixel.Length); // Elegir un índice aleatorio
         GameObject randomObject = prefabsPixel[randomIndex]; // Obtener el objeto correspondiente
 
-        Instantiate(randomObject, transform.position, Quaternion.identity); // Instanciar el objeto
+        Instantiate(randomObject, transform.position, Quaternion.identity, transform); // Instanciar el objeto
     }
 }
