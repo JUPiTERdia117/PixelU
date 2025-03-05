@@ -20,12 +20,14 @@ public class PixelSpawner : MonoBehaviour
         
     }
 
-    public void SpawnPixel(){
-        if (prefabsPixel.Length == 0) return;
+    public GameObject SpawnPixel(){
+        if (prefabsPixel.Length == 0) return null;
 
         int randomIndex = Random.Range(0, prefabsPixel.Length); // Elegir un índice aleatorio
         GameObject randomObject = prefabsPixel[randomIndex]; // Obtener el objeto correspondiente
 
-        Instantiate(randomObject, transform.position, Quaternion.identity, transform); // Instanciar el objeto
+        GameObject pixel = Instantiate(randomObject, transform.position, Quaternion.identity, transform); // Instanciar el pixel
+
+        return pixel;
     }
 }

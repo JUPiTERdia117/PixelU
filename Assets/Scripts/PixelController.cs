@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class PixelController : MonoBehaviour
 {
+    
+    [SerializeField] int vida;
+
+    [SerializeField] SpriteRenderer shieldSprite;
+
+    bool shieldActive = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +23,23 @@ public class PixelController : MonoBehaviour
         
     }
 
-    public void DestruirPixel(){
+    public int QuitarVida(){
+
+        vida--;
+
+        if(vida==0){
+            DestruirPixel();
+        }
+
+        if(vida==1){
+            DesactivarEscudos();
+        }
+
+        return vida;
+
+    }
+
+    void DestruirPixel(){
 
     
 
@@ -28,8 +51,29 @@ public class PixelController : MonoBehaviour
 
     }
 
+    public void ActivarEscudos(){
+
+        Debug.Log("activando mi escudo");
+
+        shieldSprite.enabled = true;
+
+        shieldActive = true;
+
+        vida++;
+
+
+
+    }
     
 
+    public void DesactivarEscudos(){
 
+        shieldSprite.enabled = false;
+
+        shieldActive = false;
+
+    }
+
+    
 
 }

@@ -11,25 +11,36 @@ public class GM : MonoBehaviour
 
     PixelSpawner pixelSP;
 
-    List<GameObject> SP_List;
+    List<GameObject> SP_List, Pixels_List;
 
     [SerializeField] int level1Q=4; // Cantidad maxima de pixeles a spawnear en nivel 1
+
+    [SerializeField] GameObject glitch; //El glitch
 
     int currentPixelQ = 0;//Cantidad actual de pixeles
 
     int aviableSpawnQ = 0; //Cantidad disponible de spawns para cada nivel
 
     //Tiempo de aparicion y desaparicion de pixeles
-    [SerializeField] int tAparicion, tDesaparicion;
+    [SerializeField] int tDesaparicion, tAparicion;
+
+    [SerializeField] int tEscudosL1, tEscudosL2, tEscudosL3;
 
     //Variables que sirven para tener control del tiempo
     private float tiempoTranscurrido = 0f;
     private int minutos, segundos, centesimas, segundosTotales;
 
+    bool level1Started = false;
+
+    GlitchController glitchC;
+
 
     void Awake(){
         //Lista que contiene posibles puntos de spawneo de pixeles
         SP_List = new List<GameObject>(spawnPoints);
+        Pixels_List = new List<GameObject>();
+
+        glitchC =glitch.GetComponent<GlitchController>();
     }
 
 
@@ -59,7 +70,10 @@ public class GM : MonoBehaviour
 
             //Empieza nivel 1
 
-            Level1();
+            if(!level1Started){
+                Level1();
+            }
+            
 
 
 
@@ -77,10 +91,17 @@ public class GM : MonoBehaviour
             {
                 if(hit.collider.tag == "Enemy"){
                     PixelController pController = hit.collider.gameObject.GetComponent<PixelController>();
-                    GameObject pixelParent = hit.collider.gameObject.transform.parent.gameObject;
-                    pController.DestruirPixel();
-                    currentPixelQ--;
-                    SP_List.Add(pixelParent);
+
+                    if(pController.QuitarVida()==0){
+
+                        GameObject pixelParent = hit.collider.gameObject.transform.parent.gameObject;
+                        Pixels_List.Remove(hit.collider.gameObject);
+                        currentPixelQ--;
+                        SP_List.Add(pixelParent);
+
+                    }
+
+                                    
                 }
             }
         }
@@ -107,9 +128,16 @@ public class GM : MonoBehaviour
                 Debug.LogWarning("No hay la suficiente cantidad de spawns");
             }
 
-            InvokeRepeating("CrearPixel", 3f, tAparicion);
+            InvokeRepeating("DesaparecerPixel", 10f, tDesaparicion);
+            InvokeRepeating("AparecerPixel", 10f, tAparicion);
             
         }
+
+
+        ActivarGlitch();
+        level1Started = true;
+
+        
 
     }
 
@@ -128,9 +156,11 @@ public class GM : MonoBehaviour
 
             pixelSP = randomObject.GetComponent<PixelSpawner>();
 
-            pixelSP.SpawnPixel();
+            GameObject pixelCreado = pixelSP.SpawnPixel();
 
             SP_List.RemoveAt(randomIndex);
+
+            Pixels_List.Add(pixelCreado);
 
             currentPixelQ++;
         }
@@ -138,6 +168,72 @@ public class GM : MonoBehaviour
             Debug.LogWarning("Cantidad máxima de pixeles para este nivel");
         }
 
+
+
+    }
+
+    void DesaparecerPixel(){
+        if(Pixels_List.Count>0){
+            int randomIndex = Random.Range(0, Pixels_List.Count); // Elegir un índice aleatorio
+            GameObject randomPixel = Pixels_List[randomIndex]; // Obtener el objeto correspondiente
+            Pixels_List.Remove(randomPixel);
+            GameObject pixelParent = randomPixel.transform.parent.gameObject;
+            SP_List.Add(pixelParent);
+            //randomPixel.GetComponent<PixelController>().DestruirPixel();
+            //implementar funcion para desaparecer pixel
+            Destroy(randomPixel);
+            currentPixelQ--;
+
+        }
+        else{
+            Debug.LogWarning("No hay pixeles para desaparecer");
+        }
+        
+    }
+
+    void AparecerPixel(){
+
+        CrearPixel();
+
+    }
+
+    void ActivarGlitch(){
+
+        glitchC.ActivarModoEscudo();
+
+        InvokeRepeating("DarEscudoAPixel", 0f, tEscudosL1);
+
+    }
+
+    private IEnumerator EsperarSegundos(int segundos){
+        while(true){
+            yield return new WaitForSeconds(segundos);
+            
+        }
+    }
+
+    void DarEscudoAPixel(){
+
+        Debug.Log("intentnando dar escudo");
+
+        if(Pixels_List.Count>0){
+            int randomIndex = Random.Range(0, Pixels_List.Count); // Elegir un índice aleatorio
+            GameObject randomPixel = Pixels_List[randomIndex]; // Obtener el objeto correspondiente
+
+            glitchC.DarEscudo(randomPixel);
+
+            //Pixels_List.Remove(randomPixel);
+            //GameObject pixelParent = randomPixel.transform.parent.gameObject;
+            //SP_List.Add(pixelParent);
+            //randomPixel.GetComponent<PixelController>().DestruirPixel();
+            //implementar funcion para desaparecer pixel
+            //Destroy(randomPixel);
+            //currentPixelQ--;
+
+        }
+        else{
+            Debug.LogWarning("No hay pixeles a los que dar escudo");
+        }
 
 
     }

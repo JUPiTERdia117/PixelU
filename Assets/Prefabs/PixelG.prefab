@@ -12,6 +12,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: PixelG
       objectReference: {fileID: 0}
+    - target: {fileID: 5731632484261802581, guid: ace429b0f007b4c0cacf9f4674e9d58b, type: 3}
+      propertyPath: m_Color.b
+      value: 0.2235294
+      objectReference: {fileID: 0}
+    - target: {fileID: 5731632484261802581, guid: ace429b0f007b4c0cacf9f4674e9d58b, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5731632484261802581, guid: ace429b0f007b4c0cacf9f4674e9d58b, type: 3}
+      propertyPath: m_Color.r
+      value: 0.34046695
+      objectReference: {fileID: 0}
     - target: {fileID: 6298655014944708329, guid: ace429b0f007b4c0cacf9f4674e9d58b, type: 3}
       propertyPath: m_Color.g
       value: 1
