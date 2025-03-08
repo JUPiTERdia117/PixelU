@@ -7,16 +7,18 @@ public class GlitchController : MonoBehaviour
 
     bool modoEscudo = false;
 
-    [SerializeField] int vida;
+    [SerializeField] int tempVida;
 
     [SerializeField] SpriteRenderer shieldMode;
 
+    int curentTEscudos;
 
+    int vida = 0;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-
+        vida = tempVida;
         //Anim
         
     }
@@ -26,6 +28,8 @@ public class GlitchController : MonoBehaviour
     {
         if(vida<=0){
             CancelInvoke("DarEscudo");
+
+            //Debug.Log("Glitch Desactivado");
         
             modoEscudo = false;
 
@@ -33,6 +37,12 @@ public class GlitchController : MonoBehaviour
 
             idleMode.enabled = true;
             shieldMode.enabled = false;
+
+            vida = tempVida;
+
+            InvokeRepeating("DarEscudo", 10.0f, curentTEscudos);
+
+
 
         }
         else{
@@ -47,9 +57,22 @@ public class GlitchController : MonoBehaviour
 
     public void ActivarGlitch(int tEscudos){
 
-        Debug.Log("Glitch Activado");
+        curentTEscudos = tEscudos;
 
-        InvokeRepeating("DarEscudo", 0f, tEscudos);
+        Debug.Log("Glitch Activado");
+        InvokeRepeating("DarEscudo", 0f, curentTEscudos);
+
+    
+
+    }
+
+    public void DarEscudo(){
+
+
+
+        Debug.Log("Glitch dando escudos");
+
+        //InvokeRepeating("DarEscudo", 0f, curentTEscudos);
 
         SpriteRenderer idleMode = GetComponent<SpriteRenderer>();
 
@@ -59,12 +82,8 @@ public class GlitchController : MonoBehaviour
 
         modoEscudo = true;
 
-    }
-
-    public void DarEscudo(){
-
          
-        Debug.Log("Antes de dar s:"+GM.PixelsToShield_List.Count);   
+        
         if(GM.PixelsToShield_List.Count>0){
             //Debug.Log("Dando escudo");
             int randomIndex = Random.Range(0, GM.PixelsToShield_List.Count); // Elegir un índice aleatorio
@@ -75,7 +94,7 @@ public class GlitchController : MonoBehaviour
 
             GM.PixelsToShield_List.Remove(randomPixel);
 
-            Debug.Log("Despues de dar s:"+GM.PixelsToShield_List.Count);      
+                
 
         }
         else{
