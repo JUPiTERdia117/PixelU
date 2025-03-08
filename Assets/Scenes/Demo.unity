@@ -1092,9 +1092,9 @@ MonoBehaviour:
   tiempoADA: 0
   level1Q: 9
   glitch: {fileID: 1140736264}
-  tDesaparicion: 10
-  tAparicion: 5
-  tEscudosL1: 3
+  tDesaparicion: 7
+  tAparicion: 3
+  tEscudosL1: 2
   tEscudosL2: 0
   tEscudosL3: 0
 --- !u!4 &1385471962
