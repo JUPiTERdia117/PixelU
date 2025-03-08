@@ -1090,11 +1090,11 @@ MonoBehaviour:
   tDescanso: 0
   tL4: 0
   tiempoADA: 0
-  level1Q: 5
+  level1Q: 9
   glitch: {fileID: 1140736264}
-  tDesaparicion: 6
-  tAparicion: 3
-  tEscudosL1: 10
+  tDesaparicion: 10
+  tAparicion: 5
+  tEscudosL1: 3
   tEscudosL2: 0
   tEscudosL3: 0
 --- !u!4 &1385471962
@@ -1207,7 +1207,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1500028506
 SpriteRenderer:
   m_ObjectHideFlags: 0

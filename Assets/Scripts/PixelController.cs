@@ -55,6 +55,10 @@ public class PixelController : MonoBehaviour
 
         Debug.Log("activando mi escudo");
 
+        if(shieldActive){
+            Debug.Log("ya tenig");
+        }
+
         shieldSprite.enabled = true;
 
         shieldActive = true;

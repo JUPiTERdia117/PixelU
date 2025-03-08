@@ -13,6 +13,8 @@ public class GM : MonoBehaviour
 
     List<GameObject> SP_List, Pixels_List;
 
+    static public List<GameObject> PixelsToShield_List; //Lista de pixeles disponibles para dar escudos.
+
     [SerializeField] int level1Q=4; // Cantidad maxima de pixeles a spawnear en nivel 1
 
     [SerializeField] GameObject glitch; //El glitch
@@ -39,6 +41,7 @@ public class GM : MonoBehaviour
         //Lista que contiene posibles puntos de spawneo de pixeles
         SP_List = new List<GameObject>(spawnPoints);
         Pixels_List = new List<GameObject>();
+        PixelsToShield_List = new List<GameObject>();
 
         glitchC =glitch.GetComponent<GlitchController>();
     }
@@ -90,18 +93,28 @@ public class GM : MonoBehaviour
             if (hit.collider != null)
             {
                 if(hit.collider.tag == "Enemy"){
-                    PixelController pController = hit.collider.gameObject.GetComponent<PixelController>();
-
+                    GameObject pixelGolpeado = hit.collider.gameObject;
+                    PixelController pController = pixelGolpeado.GetComponent<PixelController>();
                     if(pController.QuitarVida()==0){
-
-                        GameObject pixelParent = hit.collider.gameObject.transform.parent.gameObject;
-                        Pixels_List.Remove(hit.collider.gameObject);
+                        GameObject pixelParent = pixelGolpeado.transform.parent.gameObject;
+                        Pixels_List.Remove(pixelGolpeado);
+                        PixelsToShield_List.Remove(pixelGolpeado);
                         currentPixelQ--;
                         SP_List.Add(pixelParent);
 
                     }
+                    else{
+
+                        PixelsToShield_List.Add(pixelGolpeado);
+
+                    }
 
                                     
+                }
+                if(hit.collider.tag == "Glitch"){
+
+                    glitchC.QuitarVida();
+
                 }
             }
         }
@@ -115,7 +128,7 @@ public class GM : MonoBehaviour
 
         if (spawnPoints.Length != 0){
             
-            if(spawnPoints.Length > level1Q)
+            if(spawnPoints.Length >= level1Q)
             {
                 //Spawnea la cantidad requerida, sin repetir
                 for(int i=0; i<level1Q; i++){
@@ -128,14 +141,16 @@ public class GM : MonoBehaviour
                 Debug.LogWarning("No hay la suficiente cantidad de spawns");
             }
 
-            InvokeRepeating("DesaparecerPixel", 10f, tDesaparicion);
-            InvokeRepeating("AparecerPixel", 10f, tAparicion);
+            InvokeRepeating("DesaparecerPixel", 5f, tDesaparicion);
+            InvokeRepeating("AparecerPixel", 5f, tAparicion);
             
         }
 
-
-        ActivarGlitch();
+        
+       
         level1Started = true;
+
+        StartCoroutine(ActivarG(5.0f));
 
         
 
@@ -148,7 +163,7 @@ public class GM : MonoBehaviour
         //Si no se ha superado la cantidad permitida de pixeles entonces crea uno 
         if(currentPixelQ < aviableSpawnQ)
         {
-            Debug.Log("Creando pixel...");
+            //Debug.Log("Creando pixel...");
 
 
             int randomIndex = Random.Range(0, SP_List.Count); // Elegir un índice aleatorio
@@ -161,6 +176,7 @@ public class GM : MonoBehaviour
             SP_List.RemoveAt(randomIndex);
 
             Pixels_List.Add(pixelCreado);
+            PixelsToShield_List.Add(pixelCreado);
 
             currentPixelQ++;
         }
@@ -177,6 +193,7 @@ public class GM : MonoBehaviour
             int randomIndex = Random.Range(0, Pixels_List.Count); // Elegir un índice aleatorio
             GameObject randomPixel = Pixels_List[randomIndex]; // Obtener el objeto correspondiente
             Pixels_List.Remove(randomPixel);
+            PixelsToShield_List.Remove(randomPixel.transform.gameObject);
             GameObject pixelParent = randomPixel.transform.parent.gameObject;
             SP_List.Add(pixelParent);
             //randomPixel.GetComponent<PixelController>().DestruirPixel();
@@ -197,46 +214,19 @@ public class GM : MonoBehaviour
 
     }
 
-    void ActivarGlitch(){
+    
 
-        glitchC.ActivarModoEscudo();
-
-        InvokeRepeating("DarEscudoAPixel", 0f, tEscudosL1);
-
-    }
-
-    private IEnumerator EsperarSegundos(int segundos){
-        while(true){
-            yield return new WaitForSeconds(segundos);
+    
+    private IEnumerator ActivarG(float segundos){
+        
+     
+        yield return new WaitForSeconds(segundos);
             
-        }
+        
+        glitchC.ActivarGlitch(tEscudosL1);
+        
     }
-
-    void DarEscudoAPixel(){
-
-        Debug.Log("intentnando dar escudo");
-
-        if(Pixels_List.Count>0){
-            int randomIndex = Random.Range(0, Pixels_List.Count); // Elegir un índice aleatorio
-            GameObject randomPixel = Pixels_List[randomIndex]; // Obtener el objeto correspondiente
-
-            glitchC.DarEscudo(randomPixel);
-
-            //Pixels_List.Remove(randomPixel);
-            //GameObject pixelParent = randomPixel.transform.parent.gameObject;
-            //SP_List.Add(pixelParent);
-            //randomPixel.GetComponent<PixelController>().DestruirPixel();
-            //implementar funcion para desaparecer pixel
-            //Destroy(randomPixel);
-            //currentPixelQ--;
-
-        }
-        else{
-            Debug.LogWarning("No hay pixeles a los que dar escudo");
-        }
-
-
-    }
+    
 
     
 }
