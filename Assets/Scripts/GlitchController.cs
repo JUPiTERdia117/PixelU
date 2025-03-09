@@ -9,7 +9,7 @@ public class GlitchController : MonoBehaviour
 
     [SerializeField] int tempVida;
 
-    [SerializeField] SpriteRenderer shieldMode;
+    [SerializeField] SpriteRenderer shieldMode, damageSprite;
 
     int curentTEscudos;
 
@@ -26,7 +26,7 @@ public class GlitchController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(vida<=0){
+        if(!modoEscudo){
             CancelInvoke("DarEscudo");
 
             //Debug.Log("Glitch Desactivado");
@@ -51,8 +51,17 @@ public class GlitchController : MonoBehaviour
     }
 
     public void QuitarVida(){
-        vida--;
-        //AnimDaño
+
+        if(modoEscudo){
+            vida--;
+            shieldMode.enabled = false;
+            damageSprite.enabled=true;
+            
+            StartCoroutine(MostrarDamage(0.2f));
+            //AnimDaño
+
+        }
+
     }
 
     public void ActivarGlitch(int tEscudos){
@@ -105,6 +114,21 @@ public class GlitchController : MonoBehaviour
 
 
 
+    }
+
+    private IEnumerator MostrarDamage(float segundos){
+        
+     
+        yield return new WaitForSeconds(segundos);
+
+        shieldMode.enabled = true;
+        damageSprite.enabled = false;
+
+        if(vida<=0){
+            modoEscudo=false;
+        }
+            
+        
     }
 
     
