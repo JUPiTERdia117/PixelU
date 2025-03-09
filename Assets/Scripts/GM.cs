@@ -101,6 +101,7 @@ public class GM : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
             if (hit.collider != null)
             {
+
                 if(hit.collider.tag == "Enemy"){
                     GameObject pixelGolpeado = hit.collider.gameObject;
                     PixelController pController = pixelGolpeado.GetComponent<PixelController>();
@@ -282,7 +283,7 @@ public class GM : MonoBehaviour
         else{
             Debug.Log("La lista de pixeles está vacia");
         }
-        
+
         Pixels_List.Clear();
         SP_List = new List<GameObject>(spawnPoints);
         PixelsToShield_List.Clear();

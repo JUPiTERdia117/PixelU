@@ -34,6 +34,8 @@ public class GlitchController : MonoBehaviour
             
             DesactivarGlitch();
 
+            glitchActivado = true;
+
             InvokeRepeating("DarEscudo", curentTActivacion, tCadenciaEscudos);
 
 
@@ -55,6 +57,7 @@ public class GlitchController : MonoBehaviour
             //AnimDaño
 
         }
+        
 
     }
 
@@ -83,8 +86,6 @@ public class GlitchController : MonoBehaviour
 
         shieldMode.enabled = true;
 
-         
-        
         if(GM.PixelsToShield_List.Count>0){
             //Debug.Log("Dando escudo");
             int randomIndex = Random.Range(0, GM.PixelsToShield_List.Count); // Elegir un índice aleatorio
