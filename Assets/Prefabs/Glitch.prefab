@@ -316,3 +316,4 @@ MonoBehaviour:
   tempVida: 3
   shieldMode: {fileID: 5560611767990817926}
   damageSprite: {fileID: 8986783679053699344}
+  tCadenciaEscudos: 3

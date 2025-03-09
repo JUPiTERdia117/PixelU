@@ -5,13 +5,17 @@ using UnityEngine;
 public class GlitchController : MonoBehaviour
 {
 
-    bool modoEscudo = false;
+ 
+
+    bool glitchActivado = false;
 
     [SerializeField] int tempVida;
 
     [SerializeField] SpriteRenderer shieldMode, damageSprite;
+    
+    [SerializeField] float tCadenciaEscudos;
 
-    int curentTEscudos;
+    float curentTActivacion;
 
     int vida = 0;
 
@@ -26,21 +30,11 @@ public class GlitchController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!modoEscudo){
-            CancelInvoke("DarEscudo");
+        if(!glitchActivado && vida<=0){
+            
+            DesactivarGlitch();
 
-            //Debug.Log("Glitch Desactivado");
-        
-            modoEscudo = false;
-
-            SpriteRenderer idleMode = GetComponent<SpriteRenderer>();
-
-            idleMode.enabled = true;
-            shieldMode.enabled = false;
-
-            vida = tempVida;
-
-            InvokeRepeating("DarEscudo", 10.0f, curentTEscudos);
+            InvokeRepeating("DarEscudo", curentTActivacion, tCadenciaEscudos);
 
 
 
@@ -52,7 +46,7 @@ public class GlitchController : MonoBehaviour
 
     public void QuitarVida(){
 
-        if(modoEscudo){
+        if(glitchActivado){
             vida--;
             shieldMode.enabled = false;
             damageSprite.enabled=true;
@@ -64,12 +58,15 @@ public class GlitchController : MonoBehaviour
 
     }
 
-    public void ActivarGlitch(int tEscudos){
+    public void ActivarGlitch(float tActivacion){
 
-        curentTEscudos = tEscudos;
+        curentTActivacion = tActivacion;
+
+        glitchActivado = true;
+
 
         Debug.Log("Glitch Activado");
-        InvokeRepeating("DarEscudo", 0f, curentTEscudos);
+        InvokeRepeating("DarEscudo", 0f, tCadenciaEscudos);
 
     
 
@@ -78,9 +75,6 @@ public class GlitchController : MonoBehaviour
     public void DarEscudo(){
 
 
-
-        Debug.Log("Glitch dando escudos");
-
         //InvokeRepeating("DarEscudo", 0f, curentTEscudos);
 
         SpriteRenderer idleMode = GetComponent<SpriteRenderer>();
@@ -88,8 +82,6 @@ public class GlitchController : MonoBehaviour
         idleMode.enabled = false;
 
         shieldMode.enabled = true;
-
-        modoEscudo = true;
 
          
         
@@ -125,9 +117,32 @@ public class GlitchController : MonoBehaviour
         damageSprite.enabled = false;
 
         if(vida<=0){
-            modoEscudo=false;
+            glitchActivado=false;
         }
             
+        
+    }
+
+    public void DesactivarGlitch(){
+
+
+
+        CancelInvoke("DarEscudo");
+
+        Debug.Log("Glitch Desactivado");
+        
+        
+
+        glitchActivado = false;
+
+        SpriteRenderer idleMode = GetComponent<SpriteRenderer>();
+
+        idleMode.enabled = true;
+        shieldMode.enabled = false;
+
+        vida = tempVida;
+
+
         
     }
 

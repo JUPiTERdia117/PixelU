@@ -15,7 +15,7 @@ public class GM : MonoBehaviour
 
     static public List<GameObject> PixelsToShield_List; //Lista de pixeles disponibles para dar escudos.
 
-    [SerializeField] int level1Q=4; // Cantidad maxima de pixeles a spawnear en nivel 1
+    [SerializeField] int level1Q=4, level2Q, level3Q; // Cantidad maxima de pixeles a spawnear en nivel 1
 
     [SerializeField] GameObject glitch; //El glitch
 
@@ -24,15 +24,15 @@ public class GM : MonoBehaviour
     int aviableSpawnQ = 0; //Cantidad disponible de spawns para cada nivel
 
     //Tiempo de aparicion y desaparicion de pixeles
-    [SerializeField] int tDesaparicion, tAparicion;
+    [SerializeField] int tDesaparicion, tAparicion, tDesaparicionL2, tAparicionL2;
 
-    [SerializeField] int tEscudosL1, tEscudosL2, tEscudosL3;
+    [SerializeField] float tActivacionGL1, tActivacionGL2, tActivacionGL3;
 
     //Variables que sirven para tener control del tiempo
     private float tiempoTranscurrido = 0f;
     private int minutos, segundos, centesimas, segundosTotales;
 
-    bool level1Started = false;
+    bool level1Started = false, level2Started = false;
 
     GlitchController glitchC;
 
@@ -66,19 +66,28 @@ public class GM : MonoBehaviour
         segundosTotales = (minutos*60 + segundos);
 
         
-        if(segundosTotales<tL1){
+        if(!level1Started){
 
             //Llega glitch
-
-
             //Empieza nivel 1
+            Level1();
+        }
+        if(segundosTotales>tL1 && !level2Started){
 
-            if(!level1Started){
-                Level1();
-            }
             
+            Level2();
 
+        }
+            
+        if(segundosTotales>tL2){
+                
+            
+                
+        }
+        if(segundosTotales>tL3){
 
+        }
+        if(segundosTotales>tL4){
 
         }
 
@@ -124,6 +133,9 @@ public class GM : MonoBehaviour
 
     void Level1(){
 
+        level1Started = true;
+        Debug.Log("Nivel 1 iniciado");
+
         aviableSpawnQ = level1Q;
 
         if (spawnPoints.Length != 0){
@@ -146,13 +158,60 @@ public class GM : MonoBehaviour
             
         }
 
-        
-       
-        level1Started = true;
+        Debug.Log(Pixels_List.Count);
 
-        StartCoroutine(ActivarG(5.0f));
+        StartCoroutine(ActivarG(5.0f, tActivacionGL1));
+
+    }
+
+    void Level2(){
+        
+        level2Started = true;
+        Debug.Log("Nivel 1 terminado");
+        Debug.Log("Nivel 2 iniciado");
+
+        glitchC.DesactivarGlitch();
+
+        DeleteAllPixels();
+
+        CancelInvoke("DesaparecerPixel");
+        CancelInvoke("AparecerPixel");
+        
+        if (spawnPoints.Length != 0){
+            
+            if(spawnPoints.Length >= level2Q)
+            {
+                //Spawnea la cantidad requerida, sin repetir
+                for(int i=0; i<level2Q; i++){
+
+                    CrearPixel();
+
+                }
+            }
+            else{
+                Debug.LogWarning("No hay la suficiente cantidad de spawns");
+            }
+
+            InvokeRepeating("DesaparecerPixel", 5f, tDesaparicionL2);
+            InvokeRepeating("AparecerPixel", 5f, tAparicionL2);
+            
+        }
+
+        StartCoroutine(ActivarG(5.0f, tActivacionGL2));
 
         
+
+        
+
+
+
+    }
+
+    void Level3(){
+
+    }
+
+    void Level4(){
 
     }
 
@@ -208,6 +267,29 @@ public class GM : MonoBehaviour
         
     }
 
+    //Elimina todos los pixeles
+    void DeleteAllPixels(){
+
+        if(Pixels_List.Count>0){
+
+            List<GameObject> enemies = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
+            foreach (GameObject enemy in enemies) // Copia la lista
+            {
+                Destroy(enemy);
+            }
+
+        }
+        else{
+            Debug.Log("La lista de pixeles está vacia");
+        }
+        
+        Pixels_List.Clear();
+        SP_List = new List<GameObject>(spawnPoints);
+        PixelsToShield_List.Clear();
+        currentPixelQ = 0;
+
+    }
+
     void AparecerPixel(){
 
         CrearPixel();
@@ -217,13 +299,13 @@ public class GM : MonoBehaviour
     
 
     
-    private IEnumerator ActivarG(float segundos){
+    private IEnumerator ActivarG(float segundos, float tActivacionG){
         
      
         yield return new WaitForSeconds(segundos);
             
         
-        glitchC.ActivarGlitch(tEscudosL1);
+        glitchC.ActivarGlitch(tActivacionG);
         
     }
     

@@ -39,7 +39,7 @@ public class PixelController : MonoBehaviour
 
     }
 
-    void DestruirPixel(){
+    public void DestruirPixel(){
 
     
 
@@ -53,11 +53,7 @@ public class PixelController : MonoBehaviour
 
     public void ActivarEscudos(){
 
-        Debug.Log("activando mi escudo");
-
-        if(shieldActive){
-            Debug.Log("ya tenig");
-        }
+        
 
         shieldSprite.enabled = true;
 
