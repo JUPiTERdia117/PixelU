@@ -25,7 +25,7 @@ public class GM : MonoBehaviour
     int aviableSpawnQ = 0; //Cantidad disponible de spawns para cada nivel
 
     //Tiempo de aparicion y desaparicion de pixeles
-    [SerializeField] int tDesaparicion, tAparicion, tDesaparicionL2, tAparicionL2;
+    [SerializeField] int tDesaparicion, tAparicion, tDesaparicionL2;
 
     [SerializeField] float tActivacionGL1, tActivacionGL2, tActivacionGL3;
 
@@ -33,7 +33,7 @@ public class GM : MonoBehaviour
     private float tiempoTranscurrido = 0f;
     private int minutos, segundos, centesimas, segundosTotales;
 
-    bool level1Started = false, level2Started = false;
+    bool level1Started = false, level2Started = false, level3Started = false, freeTStarted = false, level4Started = false;
 
     GlitchController glitchC;
 
@@ -83,15 +83,17 @@ public class GM : MonoBehaviour
 
         }
             
-        if(segundosTotales>tL2){
+        if(segundosTotales>tL1+tL2 && !level3Started){
+
+            Level3();
                 
             
                 
         }
-        if(segundosTotales>tL3){
+        if(segundosTotales>tL1+tL2+tL3 && !freeTStarted){
 
         }
-        if(segundosTotales>tL4){
+        if(segundosTotales>tL1+tL2+tL3+tDescanso && !level4Started){
 
         }
 
@@ -203,6 +205,20 @@ public class GM : MonoBehaviour
     }
 
     void Level3(){
+
+        TXTL2.SetActive(false);
+        TXTL3.SetActive(true);
+        
+        level3Started = true;
+        Debug.Log("Nivel 2 terminado");
+        Debug.Log("Nivel 3 iniciado");
+
+        glitchC.DesactivarGlitch();
+
+        DeleteAllPixels();
+
+        CancelInvoke("DeleteAllPixels");
+        CancelInvoke("CrearPixelL2");
 
     }
 
