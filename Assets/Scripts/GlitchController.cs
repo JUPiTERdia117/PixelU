@@ -34,9 +34,9 @@ public class GlitchController : MonoBehaviour
             
             DesactivarGlitch();
 
-            glitchActivado = true;
+            
 
-            InvokeRepeating("DarEscudo", curentTActivacion, tCadenciaEscudos);
+            Invoke("ActivarGlitch", curentTActivacion);
 
 
 
@@ -58,6 +58,20 @@ public class GlitchController : MonoBehaviour
 
         }
         
+
+    }
+
+    public void ActivarGlitch(){
+
+        
+
+        glitchActivado = true;
+
+
+        Debug.Log("Glitch Activado");
+        InvokeRepeating("DarEscudo", 0f, tCadenciaEscudos);
+
+    
 
     }
 
@@ -113,11 +127,12 @@ public class GlitchController : MonoBehaviour
         
      
         yield return new WaitForSeconds(segundos);
+        if(vida>0 && glitchActivado){
+            shieldMode.enabled = true;
+            damageSprite.enabled = false;
 
-        shieldMode.enabled = true;
-        damageSprite.enabled = false;
-
-        if(vida<=0){
+        }
+        else{
             glitchActivado=false;
         }
             
@@ -138,7 +153,9 @@ public class GlitchController : MonoBehaviour
 
         SpriteRenderer idleMode = GetComponent<SpriteRenderer>();
 
+
         idleMode.enabled = true;
+        damageSprite.enabled = false;
         shieldMode.enabled = false;
 
         vida = tempVida;
