@@ -25,7 +25,7 @@ public class GM : MonoBehaviour
     int aviableSpawnQ = 0; //Cantidad disponible de spawns para cada nivel
 
     //Tiempo de aparicion y desaparicion de pixeles
-    [SerializeField] int tDesaparicion, tAparicion, tDesaparicionL2;
+    [SerializeField] int tDesaparicion, tAparicion, tDesaparicionL2, tDesaparicionL3;
 
     [SerializeField] float tActivacionGL1, tActivacionGL2, tActivacionGL3;
 
@@ -116,7 +116,8 @@ public class GM : MonoBehaviour
                         Pixels_List.Remove(pixelGolpeado);
                         PixelsToShield_List.Remove(pixelGolpeado);
                         currentPixelQ--;
-                        SP_List.Add(pixelParent);
+                        SP_List.Add(pixelParent);//Para nivel 1
+                        //SP_ListL2.Add(pixelParent); // Para nivel 2 y 3
 
                     }
                     else{
@@ -219,6 +220,11 @@ public class GM : MonoBehaviour
 
         CancelInvoke("DeleteAllPixels");
         CancelInvoke("CrearPixelL2");
+
+        InvokeRepeating("DeleteAllPixels", tDesaparicionL3,tDesaparicionL3);
+        InvokeRepeating("CrearPixelL3", 0.0f,tDesaparicionL3+0.5f);
+
+        StartCoroutine(ActivarG(5.0f, tActivacionGL3));
 
     }
 
@@ -326,6 +332,63 @@ public class GM : MonoBehaviour
 
     }
 
+    void CrearPixelL3(){
+
+        
+
+        if (spawnPointsL2.Length != 0){
+            
+            if(spawnPointsL2.Length >= level2Q)
+            {
+                //Spawnea la cantidad requerida, sin repetir
+                for(int i=0; i<level2Q; i++){
+
+                    //Si no se ha superado la cantidad permitida de pixeles entonces crea uno 
+                    if(currentPixelQ < aviableSpawnQ)
+                    {
+                        //Debug.Log("Creando pixel...");
+
+
+                        int randomIndex = Random.Range(0, SP_ListL2.Count); // Elegir un índice aleatorio
+                        GameObject randomObject = SP_ListL2[randomIndex]; // Obtener el objeto correspondiente
+
+                        pixelSP = randomObject.GetComponent<PixelSpawner>();
+
+                        GameObject pixelCreado = pixelSP.SpawnPixel();
+
+                        SP_ListL2.RemoveAt(randomIndex);
+
+                        Pixels_List.Add(pixelCreado);
+                        PixelsToShield_List.Add(pixelCreado);
+
+                        
+                        pixelCreado.GetComponent<PixelController>().ActivarMovimientoAleatorio();
+                        
+
+                        currentPixelQ++;
+
+                        
+
+                        
+                    }
+                    else{
+                        Debug.LogWarning("Cantidad máxima de pixeles para este nivel");
+                        
+
+                    }
+
+                    
+
+                }
+            }
+            else{
+                Debug.LogWarning("No hay la suficiente cantidad de spawns");
+            }
+            
+        }
+
+    }
+
     void DesaparecerPixel(){
         if(Pixels_List.Count>0){
             int randomIndex = Random.Range(0, Pixels_List.Count); // Elegir un índice aleatorio
@@ -333,7 +396,8 @@ public class GM : MonoBehaviour
             Pixels_List.Remove(randomPixel);
             PixelsToShield_List.Remove(randomPixel.transform.gameObject);
             GameObject pixelParent = randomPixel.transform.parent.gameObject;
-            SP_List.Add(pixelParent);
+            SP_List.Add(pixelParent);//Para nivel 1
+            SP_ListL2.Add(pixelParent);//Para nivel 2 y 3
             //randomPixel.GetComponent<PixelController>().DestruirPixel();
             //implementar funcion para desaparecer pixel
             Destroy(randomPixel);
@@ -369,12 +433,15 @@ public class GM : MonoBehaviour
         currentPixelQ = 0;
 
     }
+    
 
     void AparecerPixel(){
 
         CrearPixel();
 
     }
+
+   
 
     
 
