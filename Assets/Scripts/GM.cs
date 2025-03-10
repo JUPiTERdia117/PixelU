@@ -8,7 +8,7 @@ public class GM : MonoBehaviour
     [SerializeField] GameObject[] spawnPoints, spawnPointsL2;
 
     //Tiempos (segundos) de cada seccion
-    [SerializeField] float tL1, tL2, tL3, tDescanso, tL4, tiempoADA; 
+    [SerializeField] float tL1, tL2, tL3, tDescanso, tL4, tADA; 
 
     PixelSpawner pixelSP;
 
@@ -19,6 +19,7 @@ public class GM : MonoBehaviour
     [SerializeField] int level1Q=4, level2Q, level3Q; // Cantidad maxima de pixeles a spawnear en nivel 1
 
     [SerializeField] GameObject glitch; //El glitch
+    [SerializeField] GameObject ada; //El ada
 
     int currentPixelQ = 0;//Cantidad actual de pixeles
 
@@ -33,11 +34,15 @@ public class GM : MonoBehaviour
     private float tiempoTranscurrido = 0f;
     private int minutos, segundos, centesimas, segundosTotales;
 
-    bool level1Started = false, level2Started = false, level3Started = false, freeTStarted = false, level4Started = false;
+    bool level1Started , level2Started ,level3Started , freeTStarted , level4Started, adaStarted = false;
 
     GlitchController glitchC;
 
-    [SerializeField] GameObject TXTL1,TXTL2,TXTL3,TXT4,TXTDESCANSO,TXTADA;
+    AdaController adaC;
+
+    [SerializeField] GameObject TXTL1,TXTL2,TXTL3,TXTL4,TXTDESCANSO,TXTADA, TXTWin, TXTLose;
+
+    bool victory = false;
 
 
     void Awake(){
@@ -48,6 +53,7 @@ public class GM : MonoBehaviour
         PixelsToShield_List = new List<GameObject>();
 
         glitchC =glitch.GetComponent<GlitchController>();
+        adaC =ada.GetComponent<AdaController>();
     }
 
 
@@ -92,9 +98,33 @@ public class GM : MonoBehaviour
         }
         if(segundosTotales>tL1+tL2+tL3 && !freeTStarted){
 
+            Descanso();
+
         }
         if(segundosTotales>tL1+tL2+tL3+tDescanso && !level4Started){
 
+            Level4();
+
+        }
+        if(segundosTotales>tL1+tL2+tL3+tDescanso+tL4 && !adaStarted){
+            if(currentPixelQ==0){
+                victory = true;
+
+            }
+            if(!victory){
+                Ada();
+
+            }
+            else{
+                TXTADA.SetActive(false);
+                TXTWin.SetActive(true);
+            }
+            
+
+        }
+        if(segundosTotales>tL1+tL2+tL3+tDescanso+tL4 +tADA){
+            TXTADA.SetActive(false);
+            TXTLose.SetActive(true);
         }
 
         //Comprueba si hubo un "click"
@@ -131,6 +161,14 @@ public class GM : MonoBehaviour
                 if(hit.collider.tag == "Glitch"){
 
                     glitchC.QuitarVida();
+
+                }
+                if(hit.collider.tag == "Ada"){
+
+                    if(adaC.DarVida()){
+                        TXTADA.SetActive(false);
+                        TXTWin.SetActive(true);
+                    }
 
                 }
             }
@@ -228,7 +266,80 @@ public class GM : MonoBehaviour
 
     }
 
+    void Descanso(){
+
+        TXTL3.SetActive(false);
+        TXTDESCANSO.SetActive(true);
+        
+        freeTStarted = true;
+        Debug.Log("Nivel 3 terminado");
+        Debug.Log("Descanso iniciado");
+
+        glitchC.DesactivarGlitch();
+
+        DeleteAllPixels();
+
+        CancelInvoke("DeleteAllPixels");
+        CancelInvoke("CrearPixelL3");
+
+        
+        
+
+        glitchC.GetComponent<SpriteRenderer>().enabled = false;
+
+        glitchC.gameObject.transform.position = new Vector2(0,glitch.gameObject.transform.position.y);
+
+    }
+
     void Level4(){
+
+        TXTDESCANSO.SetActive(false);
+        TXTL4.SetActive(true);
+        
+        level4Started = true;
+        Debug.Log("Descanso terminado");
+        Debug.Log("L4 iniciado");
+
+
+        glitchC.GetComponent<SpriteRenderer>().enabled = true;
+
+        aviableSpawnQ = spawnPoints.Length;
+
+        if (spawnPoints.Length != 0){
+            
+            
+            //Spawnea la cantidad requerida, sin repetir
+            for(int i=0; i<spawnPoints.Length; i++){
+
+                CrearPixel();
+
+            }
+            
+        }
+
+
+
+
+
+
+
+    }
+
+    void Ada(){
+
+        TXTL4.SetActive(false);
+        TXTADA.SetActive(true);
+        
+        adaStarted = true;
+        Debug.Log("L4 terminado");
+        Debug.Log("Ada iniciado");
+
+        DeleteAllPixels();
+
+
+        glitchC.GetComponent<SpriteRenderer>().enabled = false;
+
+        ada.SetActive(true);
 
     }
 
