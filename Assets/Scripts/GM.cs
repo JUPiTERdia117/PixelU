@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GM : MonoBehaviour
 {
-    [SerializeField] GameObject[] spawnPoints;
+    [SerializeField] GameObject[] spawnPoints, spawnPointsL2;
 
     //Tiempos (segundos) de cada seccion
     [SerializeField] float tL1, tL2, tL3, tDescanso, tL4, tiempoADA; 
 
     PixelSpawner pixelSP;
 
-    List<GameObject> SP_List, Pixels_List;
+    List<GameObject> SP_List, SP_ListL2, Pixels_List;
 
     static public List<GameObject> PixelsToShield_List; //Lista de pixeles disponibles para dar escudos.
 
@@ -36,10 +37,13 @@ public class GM : MonoBehaviour
 
     GlitchController glitchC;
 
+    [SerializeField] GameObject TXTL1,TXTL2,TXTL3,TXT4,TXTDESCANSO,TXTADA;
+
 
     void Awake(){
         //Lista que contiene posibles puntos de spawneo de pixeles
         SP_List = new List<GameObject>(spawnPoints);
+        SP_ListL2 = new List<GameObject>(spawnPointsL2);
         Pixels_List = new List<GameObject>();
         PixelsToShield_List = new List<GameObject>();
 
@@ -159,13 +163,16 @@ public class GM : MonoBehaviour
             
         }
 
-        Debug.Log(Pixels_List.Count);
+       
 
         StartCoroutine(ActivarG(5.0f, tActivacionGL1));
 
     }
 
     void Level2(){
+
+        TXTL1.SetActive(false);
+        TXTL2.SetActive(true);
         
         level2Started = true;
         Debug.Log("Nivel 1 terminado");
@@ -178,25 +185,12 @@ public class GM : MonoBehaviour
         CancelInvoke("DesaparecerPixel");
         CancelInvoke("AparecerPixel");
         
-        if (spawnPoints.Length != 0){
+        
+
+        InvokeRepeating("DeleteAllPixels", tDesaparicionL2,tDesaparicionL2);
+        InvokeRepeating("CrearPixelL2", 0.0f,tDesaparicionL2+0.5f);
             
-            if(spawnPoints.Length >= level2Q)
-            {
-                //Spawnea la cantidad requerida, sin repetir
-                for(int i=0; i<level2Q; i++){
-
-                    CrearPixel();
-
-                }
-            }
-            else{
-                Debug.LogWarning("No hay la suficiente cantidad de spawns");
-            }
-
-            InvokeRepeating("DesaparecerPixel", 5f, tDesaparicionL2);
-            InvokeRepeating("AparecerPixel", 5f, tAparicionL2);
-            
-        }
+        
 
         StartCoroutine(ActivarG(5.0f, tActivacionGL2));
 
@@ -238,11 +232,79 @@ public class GM : MonoBehaviour
             Pixels_List.Add(pixelCreado);
             PixelsToShield_List.Add(pixelCreado);
 
+            
+            
+            
+
             currentPixelQ++;
+
+            
         }
         else{
             Debug.LogWarning("Cantidad máxima de pixeles para este nivel");
+            
+
         }
+
+
+
+    }
+
+    void CrearPixelL2(){
+
+        
+        if (spawnPointsL2.Length != 0){
+            
+            if(spawnPointsL2.Length >= level2Q)
+            {
+                //Spawnea la cantidad requerida, sin repetir
+                for(int i=0; i<level2Q; i++){
+
+                    //Si no se ha superado la cantidad permitida de pixeles entonces crea uno 
+                    if(currentPixelQ < aviableSpawnQ)
+                    {
+                        //Debug.Log("Creando pixel...");
+
+
+                        int randomIndex = Random.Range(0, SP_ListL2.Count); // Elegir un índice aleatorio
+                        GameObject randomObject = SP_ListL2[randomIndex]; // Obtener el objeto correspondiente
+
+                        pixelSP = randomObject.GetComponent<PixelSpawner>();
+
+                        GameObject pixelCreado = pixelSP.SpawnPixel();
+
+                        SP_ListL2.RemoveAt(randomIndex);
+
+                        Pixels_List.Add(pixelCreado);
+                        PixelsToShield_List.Add(pixelCreado);
+
+                        
+                        pixelCreado.GetComponent<PixelController>().ActivarMovimiento();
+                        
+
+                        currentPixelQ++;
+
+                        
+
+                        
+                    }
+                    else{
+                        Debug.LogWarning("Cantidad máxima de pixeles para este nivel");
+                        
+
+                    }
+
+                    
+
+                }
+            }
+            else{
+                Debug.LogWarning("No hay la suficiente cantidad de spawns");
+            }
+            
+        }
+        
+        
 
 
 
@@ -286,6 +348,7 @@ public class GM : MonoBehaviour
 
         Pixels_List.Clear();
         SP_List = new List<GameObject>(spawnPoints);
+        SP_ListL2 = new List<GameObject>(spawnPointsL2);
         PixelsToShield_List.Clear();
         currentPixelQ = 0;
 

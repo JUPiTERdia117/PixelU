@@ -9,9 +9,19 @@ public class PixelController : MonoBehaviour
 
     [SerializeField] SpriteRenderer shieldSprite;
 
-    bool shieldActive = false;
+    //bool shieldActive = false;
+    bool movement = false;
+
+    float startX;
 
     // Start is called before the first frame update
+
+    
+
+    void Awake(){
+        startX = transform.position.x;
+    }
+
     void Start()
     {
         
@@ -20,6 +30,11 @@ public class PixelController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(movement){
+            float speed = 1f;
+            float width = 10f;
+            transform.position = new Vector2(Mathf.PingPong(Time.time * speed, 2*width)+(startX-width), transform.position.y);
+        }
         
     }
 
@@ -57,7 +72,7 @@ public class PixelController : MonoBehaviour
 
         shieldSprite.enabled = true;
 
-        shieldActive = true;
+        //shieldActive = true;
 
         vida++;
 
@@ -70,7 +85,13 @@ public class PixelController : MonoBehaviour
 
         shieldSprite.enabled = false;
 
-        shieldActive = false;
+        //shieldActive = false;
+
+    }
+
+    public void ActivarMovimiento(){
+
+        movement = true;
 
     }
 
