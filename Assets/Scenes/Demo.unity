@@ -2775,6 +2775,8 @@ MonoBehaviour:
   - {fileID: 174346165}
   - {fileID: 684586830}
   - {fileID: 1176254093}
+  - {fileID: 887637435}
+  - {fileID: 398438225}
   - {fileID: 1210683863}
   - {fileID: 183930952}
   - {fileID: 222715549}
@@ -2784,9 +2786,11 @@ MonoBehaviour:
   - {fileID: 1926262706}
   - {fileID: 687250327}
   - {fileID: 1413732028}
+  - {fileID: 642767612}
+  - {fileID: 406435546}
   - {fileID: 1749331102}
   - {fileID: 189133455}
-  tL1: 5
+  tL1: 120
   tL2: 15
   tL3: 0
   tDescanso: 0
@@ -2798,7 +2802,7 @@ MonoBehaviour:
   glitch: {fileID: 1140736264}
   tDesaparicion: 8
   tAparicion: 3
-  tDesaparicionL2: 10
+  tDesaparicionL2: 15
   tAparicionL2: 3
   tActivacionGL1: 10
   tActivacionGL2: 7

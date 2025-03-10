@@ -31,8 +31,8 @@ public class PixelController : MonoBehaviour
     void Update()
     {
         if(movement){
-            float speed = 1f;
-            float width = 10f;
+            float speed = 2.5f;
+            float width = 12f;
             transform.position = new Vector2(Mathf.PingPong(Time.time * speed, 2*width)+(startX-width), transform.position.y);
         }
         

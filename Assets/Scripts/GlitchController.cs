@@ -19,10 +19,22 @@ public class GlitchController : MonoBehaviour
 
     int vida = 0;
 
+    float startX;
+
+    float timeCounter = 0f; // Variable para llevar el tiempo del PingPong
+
+    bool isFirstActivation = true;
+
+    float speed = 2.5f, width = 12.0f;
+
     // Start is called before the first frame update
     void Awake()
     {
         vida = tempVida;
+        startX = transform.position.x;
+
+        //timeCounter = ((currentX - (startX - width)) / (2 * width)) / speed;
+
         //Anim
         
     }
@@ -43,6 +55,12 @@ public class GlitchController : MonoBehaviour
         }
         else{
             //Anim
+        }
+
+        if(glitchActivado){
+            
+            timeCounter += Time.deltaTime;
+            transform.position = new Vector2(Mathf.PingPong(timeCounter * speed, 2*width)+(startX-width), transform.position.y);
         }
     }
 
@@ -69,6 +87,9 @@ public class GlitchController : MonoBehaviour
 
 
         Debug.Log("Glitch Activado");
+       
+    
+        
         InvokeRepeating("DarEscudo", 0f, tCadenciaEscudos);
 
     
@@ -80,6 +101,14 @@ public class GlitchController : MonoBehaviour
         curentTActivacion = tActivacion;
 
         glitchActivado = true;
+
+        // Para la primera vez hace que el glitch empiece a moverse
+        //Desde su punto inicial
+        if (isFirstActivation)
+        {
+            timeCounter = width / speed; // Midpoint of PingPong cycle
+            isFirstActivation = false;
+        }
 
 
         Debug.Log("Glitch Activado");
