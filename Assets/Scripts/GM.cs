@@ -104,25 +104,35 @@ public class GM : MonoBehaviour
         if(segundosTotales>tL1+tL2+tL3+tDescanso && !level4Started){
 
             Level4();
-
-        }
-        if(segundosTotales>tL1+tL2+tL3+tDescanso+tL4 && !adaStarted){
-            if(currentPixelQ==0){
-                victory = true;
-
-            }
-            if(!victory){
-                Ada();
-
-            }
-            else{
-                TXTADA.SetActive(false);
-                TXTWin.SetActive(true);
-            }
             
 
         }
-        if(segundosTotales>tL1+tL2+tL3+tDescanso+tL4 +tADA){
+        if(level4Started){
+            if(currentPixelQ==0){
+                victory = true;
+
+
+
+            }
+
+        }
+        if(victory){
+
+            ada.SetActive(false);
+            TXTL4.SetActive(false);
+            TXTADA.SetActive(false);
+            TXTWin.SetActive(true);
+            glitchC.GetComponent<SpriteRenderer>().enabled = false;
+
+        }
+        if(segundosTotales>tL1+tL2+tL3+tDescanso+tL4 && !adaStarted && !victory){
+
+            
+            Ada();
+
+        }
+        if(segundosTotales>tL1+tL2+tL3+tDescanso+tL4+tADA && !victory){
+            ada.SetActive(false);
             TXTADA.SetActive(false);
             TXTLose.SetActive(true);
         }
@@ -166,8 +176,8 @@ public class GM : MonoBehaviour
                 if(hit.collider.tag == "Ada"){
 
                     if(adaC.DarVida()){
-                        TXTADA.SetActive(false);
-                        TXTWin.SetActive(true);
+                        victory = true;
+                        
                     }
 
                 }
