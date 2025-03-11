@@ -107,6 +107,7 @@ public class GM : MonoBehaviour
             
 
         }
+        /*
         if(level4Started){
             if(currentPixelQ==0){
                 victory = true;
@@ -116,6 +117,7 @@ public class GM : MonoBehaviour
             }
 
         }
+        */
         if(victory){
 
             ada.SetActive(false);
