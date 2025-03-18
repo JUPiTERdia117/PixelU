@@ -103,22 +103,26 @@ public class GM : MonoBehaviour
             Descanso();
 
         }
-        if(segundosTotales>tL1+tL2+tL3+tDescanso && !level4Started){
+        if(segundosTotales>tL1+tL2+tL3+tDescanso){
 
-            Level4();
+            if(!level4Started){
+                Level4();
+
+            }
+            if(level4Started){
+                if(currentPixelQ==0){
+                    victory = true;
+
+
+
+                }
+
+            }
             
 
         }
         
-        if(level4Started){
-            if(currentPixelQ==0){
-                victory = true;
-
-
-
-            }
-
-        }
+        
         
         if(victory){
 

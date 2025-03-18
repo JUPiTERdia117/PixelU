@@ -2179,6 +2179,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 454090205575368193, guid: 5b4d92ba228e5d2499eedf20228d7481, type: 3}
+      propertyPath: maxSize
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 454090205575368193, guid: 5b4d92ba228e5d2499eedf20228d7481, type: 3}
+      propertyPath: growthSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5849176440021141710, guid: 5b4d92ba228e5d2499eedf20228d7481, type: 3}
       propertyPath: m_Name
       value: ADA
@@ -3418,11 +3426,11 @@ MonoBehaviour:
   - {fileID: 406435546}
   - {fileID: 1749331102}
   - {fileID: 189133455}
-  tL1: 15
-  tL2: 15
-  tL3: 15
-  tDescanso: 15
-  tL4: 20
+  tL1: 6
+  tL2: 6
+  tL3: 6
+  tDescanso: 6
+  tL4: 25
   tADA: 15
   level1Q: 16
   level2Q: 8
@@ -3627,7 +3635,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1500028506
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3670,7 +3678,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 49d60517c717a4f688b0db72f6ecc724, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.088050246, g: 0.088050246, b: 0.088050246, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
