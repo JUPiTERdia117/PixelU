@@ -719,7 +719,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 9.949951, y: -8.049988}
+  m_AnchoredPosition: {x: 9.950195, y: -8.049988}
   m_SizeDelta: {x: 19.899994, y: 16.100006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &349061806
@@ -2720,18 +2720,6 @@ PrefabInstance:
       value: Glitch
       objectReference: {fileID: 0}
     - target: {fileID: 8177713396465608034, guid: 1a5a434d70957d74783e0f95d83bef2c, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.46
-      objectReference: {fileID: 0}
-    - target: {fileID: 8177713396465608034, guid: 1a5a434d70957d74783e0f95d83bef2c, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.46
-      objectReference: {fileID: 0}
-    - target: {fileID: 8177713396465608034, guid: 1a5a434d70957d74783e0f95d83bef2c, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.46
-      objectReference: {fileID: 0}
-    - target: {fileID: 8177713396465608034, guid: 1a5a434d70957d74783e0f95d83bef2c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -2770,10 +2758,6 @@ PrefabInstance:
     - target: {fileID: 8177713396465608034, guid: 1a5a434d70957d74783e0f95d83bef2c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8177713396465608034, guid: 1a5a434d70957d74783e0f95d83bef2c, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3113,7 +3097,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 9.949951, y: -8.049988}
+  m_AnchoredPosition: {x: 9.950195, y: -8.049988}
   m_SizeDelta: {x: 19.899994, y: 16.100006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1218404319
@@ -3247,7 +3231,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 9.949951, y: -8.049988}
+  m_AnchoredPosition: {x: 9.950195, y: -8.049988}
   m_SizeDelta: {x: 19.899994, y: 16.100006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1284446637
@@ -3434,18 +3418,17 @@ MonoBehaviour:
   - {fileID: 406435546}
   - {fileID: 1749331102}
   - {fileID: 189133455}
-  tL1: 30
-  tL2: 30
-  tL3: 30
-  tDescanso: 5
-  tL4: 30
-  tADA: 20
+  tL1: 15
+  tL2: 15
+  tL3: 15
+  tDescanso: 15
+  tL4: 20
+  tADA: 15
   level1Q: 16
   level2Q: 8
   level3Q: 16
   glitch: {fileID: 1140736264}
   ada: {fileID: 1665677068}
-  tDesaparicion: 8
   tAparicion: 3
   tDesaparicionL2: 15
   tDesaparicionL3: 15
@@ -4204,7 +4187,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 9.949951, y: -8.049988}
+  m_AnchoredPosition: {x: 9.950195, y: -8.049988}
   m_SizeDelta: {x: 19.899994, y: 16.100006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1636250575

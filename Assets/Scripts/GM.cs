@@ -109,7 +109,7 @@ public class GM : MonoBehaviour
             
 
         }
-        /*
+        
         if(level4Started){
             if(currentPixelQ==0){
                 victory = true;
@@ -119,14 +119,13 @@ public class GM : MonoBehaviour
             }
 
         }
-        */
+        
         if(victory){
 
             ada.SetActive(false);
             TXTL4.SetActive(false);
             TXTADA.SetActive(false);
             TXTWin.SetActive(true);
-            glitchC.GetComponent<SpriteRenderer>().enabled = false;
 
         }
         if(segundosTotales>tL1+tL2+tL3+tDescanso+tL4 && !adaStarted && !victory){
@@ -218,7 +217,7 @@ public class GM : MonoBehaviour
             
         }
 
-       
+       glitchC.EntradaGlitch();
 
         StartCoroutine(ActivarG(5.0f, tActivacionGL1));
 
@@ -266,7 +265,7 @@ public class GM : MonoBehaviour
         Debug.Log("Nivel 2 terminado");
         Debug.Log("Nivel 3 iniciado");
 
-        glitchC.DesactivarGlitch();
+        
 
         DeleteAllPixels();
 
@@ -299,9 +298,7 @@ public class GM : MonoBehaviour
         
         
 
-        glitchC.GetComponent<SpriteRenderer>().enabled = false;
-
-        glitchC.gameObject.transform.position = new Vector2(0,glitch.gameObject.transform.position.y);
+        glitchC.SalidaGlitch();
 
     }
 
@@ -315,7 +312,7 @@ public class GM : MonoBehaviour
         Debug.Log("L4 iniciado");
 
 
-        glitchC.GetComponent<SpriteRenderer>().enabled = true;
+        glitchC.gameObject.SetActive(false);
 
         aviableSpawnQ = spawnPoints.Length;
 
@@ -349,9 +346,6 @@ public class GM : MonoBehaviour
         Debug.Log("Ada iniciado");
 
         DeleteAllPixels();
-
-
-        glitchC.GetComponent<SpriteRenderer>().enabled = false;
 
         ada.SetActive(true);
 

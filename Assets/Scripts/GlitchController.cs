@@ -27,6 +27,12 @@ public class GlitchController : MonoBehaviour
 
     float speed = 2.5f, width = 12.0f;
 
+    bool animEn, animSal = false;
+
+    
+    
+    private float elapsedTime = 0f;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -55,6 +61,31 @@ public class GlitchController : MonoBehaviour
         }
         else{
             //Anim
+        }
+
+        if(animEn){
+            if (elapsedTime < 1.0f)
+            {
+                elapsedTime += Time.deltaTime;
+                float t = elapsedTime / 1.0f;
+                transform.localScale = Vector3.Lerp(Vector3.zero,new Vector3(0.48f,0.48f,0.48f) , t);
+            }else{
+                elapsedTime = 0.0f;
+                animEn = false;
+            }
+        }
+
+        if(animSal){
+            if (elapsedTime < 1.0f)
+            {
+                elapsedTime += Time.deltaTime;
+                float t = elapsedTime / 1.0f;
+                transform.localScale = Vector3.Lerp(new Vector3(0.48f,0.48f,0.48f), Vector3.zero, t);
+            }else{
+                elapsedTime = 0.0f;
+                animSal = false;
+            }
+
         }
 
         if(glitchActivado){
@@ -174,6 +205,8 @@ public class GlitchController : MonoBehaviour
 
         CancelInvoke("DarEscudo");
 
+        CancelInvoke("ActivarGlitch");
+
         Debug.Log("Glitch Desactivado");
         
         
@@ -192,6 +225,22 @@ public class GlitchController : MonoBehaviour
 
         
     }
+
+    public void EntradaGlitch(){
+        animEn = true;
+        transform.localScale = Vector3.zero;
+    }
+
+    public void SalidaGlitch(){
+        animSal = true;
+        transform.localScale = new Vector3(0.48f,0.48f,0.48f);
+
+        Invoke("DesactivarGlitch", 1.0f);
+
+        
+    }
+
+
 
     
 
