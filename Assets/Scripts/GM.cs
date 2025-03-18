@@ -26,7 +26,9 @@ public class GM : MonoBehaviour
     int aviableSpawnQ = 0; //Cantidad disponible de spawns para cada nivel
 
     //Tiempo de aparicion y desaparicion de pixeles
-    [SerializeField] int tDesaparicion, tAparicion, tDesaparicionL2, tDesaparicionL3;
+    [SerializeField] int tAparicion, tDesaparicionL2, tDesaparicionL3;
+
+    //[SerializeField] int tDesaparicion;
 
     [SerializeField] float tActivacionGL1, tActivacionGL2, tActivacionGL3;
 
@@ -211,7 +213,7 @@ public class GM : MonoBehaviour
                 Debug.LogWarning("No hay la suficiente cantidad de spawns");
             }
 
-            InvokeRepeating("DesaparecerPixel", 5f, tDesaparicion);
+            //InvokeRepeating("DesaparecerPixel", 5f, tDesaparicion);
             InvokeRepeating("AparecerPixel", 5f, tAparicion);
             
         }
