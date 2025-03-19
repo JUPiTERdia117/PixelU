@@ -2181,19 +2181,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 454090205575368193, guid: 5b4d92ba228e5d2499eedf20228d7481, type: 3}
       propertyPath: maxSize
-      value: 15
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 454090205575368193, guid: 5b4d92ba228e5d2499eedf20228d7481, type: 3}
       propertyPath: growthSpeed
-      value: 0.5
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 454090205575368193, guid: 5b4d92ba228e5d2499eedf20228d7481, type: 3}
+      propertyPath: shrinkSpeed
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 688131537314653294, guid: 5b4d92ba228e5d2499eedf20228d7481, type: 3}
+      propertyPath: m_PointLightOuterRadius
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5849176440021141710, guid: 5b4d92ba228e5d2499eedf20228d7481, type: 3}
       propertyPath: m_Name
       value: ADA
-      objectReference: {fileID: 0}
-    - target: {fileID: 5849176440021141710, guid: 5b4d92ba228e5d2499eedf20228d7481, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8752669824941552300, guid: 5b4d92ba228e5d2499eedf20228d7481, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3426,12 +3430,12 @@ MonoBehaviour:
   - {fileID: 406435546}
   - {fileID: 1749331102}
   - {fileID: 189133455}
-  tL1: 6
-  tL2: 6
-  tL3: 6
-  tDescanso: 6
-  tL4: 25
-  tADA: 15
+  tL1: 2
+  tL2: 2
+  tL3: 2
+  tDescanso: 2
+  tL4: 2
+  tADA: 25
   level1Q: 16
   level2Q: 8
   level3Q: 16

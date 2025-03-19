@@ -167,6 +167,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vida: 1
+  maxSize: 15
+  growthSpeed: 15
+  tiempoGolpeReciente: 1
+  tToHit: 4
 --- !u!114 &688131537314653294
 MonoBehaviour:
   m_ObjectHideFlags: 0
