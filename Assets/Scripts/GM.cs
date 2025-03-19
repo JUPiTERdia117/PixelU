@@ -109,6 +109,13 @@ public class GM : MonoBehaviour
                 Level4();
 
             }
+            
+            
+
+        }
+
+        if(segundosTotales>tL1+tL2+tL3+tDescanso && segundosTotales<tL1+tL2+tL3+tDescanso+tL4){
+
             if(level4Started){
                 if(currentPixelQ==0){
                     victory = true;
@@ -118,9 +125,10 @@ public class GM : MonoBehaviour
                 }
 
             }
-            
 
         }
+
+
         
         
         
@@ -133,7 +141,6 @@ public class GM : MonoBehaviour
 
         }
         if(segundosTotales>tL1+tL2+tL3+tDescanso+tL4 && !adaStarted && !victory){
-
             
             Ada();
 
