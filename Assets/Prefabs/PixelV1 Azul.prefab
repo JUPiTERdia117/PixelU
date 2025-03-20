@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &8761339517706632026
+--- !u!1001 &7693967437644608138
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3732903586489297990, guid: ace429b0f007b4c0cacf9f4674e9d58b, type: 3}
       propertyPath: m_Name
-      value: PixelComodin
+      value: PixelV1 Azul
       objectReference: {fileID: 0}
     - target: {fileID: 5731632484261802581, guid: ace429b0f007b4c0cacf9f4674e9d58b, type: 3}
       propertyPath: m_Color.b
@@ -18,14 +18,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5731632484261802581, guid: ace429b0f007b4c0cacf9f4674e9d58b, type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0.54588175
       objectReference: {fileID: 0}
     - target: {fileID: 5731632484261802581, guid: ace429b0f007b4c0cacf9f4674e9d58b, type: 3}
       propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963963779147256933, guid: ace429b0f007b4c0cacf9f4674e9d58b, type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8925122969761500912, guid: ace429b0f007b4c0cacf9f4674e9d58b, type: 3}

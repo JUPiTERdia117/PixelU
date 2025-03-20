@@ -100,6 +100,8 @@ public class GM : MonoBehaviour
         }
         if(segundosTotales>tL1+tL2+tL3 && !freeTStarted){
 
+            
+
             Descanso();
 
         }
@@ -291,14 +293,8 @@ public class GM : MonoBehaviour
     }
 
     void Descanso(){
-
-        TXTL3.SetActive(false);
-        TXTDESCANSO.SetActive(true);
         
-        freeTStarted = true;
-        Debug.Log("Nivel 3 terminado");
-        Debug.Log("Descanso iniciado");
-
+        glitchC.SalidaGlitch();
         glitchC.DesactivarGlitch();
 
         DeleteAllPixels();
@@ -306,10 +302,9 @@ public class GM : MonoBehaviour
         CancelInvoke("DeleteAllPixels");
         CancelInvoke("CrearPixelL3");
 
-        
-        
+        freeTStarted = true;
 
-        glitchC.SalidaGlitch();
+        StartCoroutine(EmpezarD(2.0f));
 
     }
 
@@ -583,7 +578,21 @@ public class GM : MonoBehaviour
             
         
         glitchC.ActivarGlitch(tActivacionG);
+    }
+
+    private IEnumerator EmpezarD(float segundos){
         
+     
+        yield return new WaitForSeconds(segundos);
+
+        TXTL3.SetActive(false);
+        TXTDESCANSO.SetActive(true);
+        
+        
+        Debug.Log("Nivel 3 terminado");
+        Debug.Log("Descanso iniciado");
+
+                
     }
     
 

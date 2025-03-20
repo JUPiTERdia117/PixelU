@@ -2180,8 +2180,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 454090205575368193, guid: 5b4d92ba228e5d2499eedf20228d7481, type: 3}
+      propertyPath: tToHit
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 454090205575368193, guid: 5b4d92ba228e5d2499eedf20228d7481, type: 3}
       propertyPath: maxSize
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 454090205575368193, guid: 5b4d92ba228e5d2499eedf20228d7481, type: 3}
       propertyPath: growthSpeed
@@ -2198,6 +2202,10 @@ PrefabInstance:
     - target: {fileID: 5849176440021141710, guid: 5b4d92ba228e5d2499eedf20228d7481, type: 3}
       propertyPath: m_Name
       value: ADA
+      objectReference: {fileID: 0}
+    - target: {fileID: 5849176440021141710, guid: 5b4d92ba228e5d2499eedf20228d7481, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8752669824941552300, guid: 5b4d92ba228e5d2499eedf20228d7481, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3430,11 +3438,11 @@ MonoBehaviour:
   - {fileID: 406435546}
   - {fileID: 1749331102}
   - {fileID: 189133455}
-  tL1: 2
-  tL2: 2
-  tL3: 2
-  tDescanso: 2
-  tL4: 2
+  tL1: 6
+  tL2: 6
+  tL3: 6
+  tDescanso: 6
+  tL4: 7
   tADA: 25
   level1Q: 16
   level2Q: 8
@@ -3702,8 +3710,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 4.09, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

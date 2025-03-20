@@ -14,7 +14,7 @@ public class AdaController : MonoBehaviour
     float targetSize; // Tamaño objetivo
     public float currentSize; // Tamaño anterior
     [SerializeField] float growthSpeed, shrinkSpeed; // Velocidad de crecimiento/reducción
-    bool creciendo = false; // Condición que determina si crece o se reduce
+    public bool creciendo = false; // Condición que determina si crece o se reduce
 
     Coroutine golpeCoroutine;
 
@@ -40,9 +40,10 @@ public class AdaController : MonoBehaviour
         }
         
         if(!creciendo && light2D.pointLightOuterRadius > minSize){
+            targetSize = light2D.pointLightOuterRadius;
             light2D.pointLightOuterRadius = Mathf.Lerp(light2D.pointLightOuterRadius, minSize, Time.deltaTime * shrinkSpeed);
 
-            if(light2D.pointLightOuterRadius%(maxSize/20) < 0.5f && vida>1){
+            if(light2D.pointLightOuterRadius%(maxSize/20) < 0.05f && vida>1){
                 vida--;
                 
             }
