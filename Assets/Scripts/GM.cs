@@ -84,39 +84,87 @@ public class GM : MonoBehaviour
             //Empieza nivel 1
             Level1();
         }
-        if(segundosTotales>tL1 && !level2Started){
 
+        //Nivel 2
+        if(segundosTotales>tL1  && segundosTotales<tL1+tL2){
+
+
+            if(!level2Started){
+                Level2();
+
+            }
             
-            Level2();
+
+            if(level2Started){
+                if(currentPixelQ==0){
+
+                    Pixels_List.Clear();
+                    SP_ListL2 = new List<GameObject>(spawnPointsL2);
+                    PixelsToShield_List.Clear();
+
+                    CancelInvoke("DeleteAllPixels");
+                    CancelInvoke("CrearPixelL2");
+                    InvokeRepeating("CrearPixelL2", 0.0f, tDesaparicionL2+0.5f);
+                    InvokeRepeating("DeleteAllPixels", tDesaparicionL2,tDesaparicionL2);
+                    
+                    
+                    
+
+
+
+                }
+
+            }
 
         }
             
-        if(segundosTotales>tL1+tL2 && !level3Started){
+        //Nivel 3
+        if(segundosTotales>tL1+tL2 && segundosTotales<tL1+tL2+tL3){
 
-            Level3();
+            if(!level3Started){
+                Level3();
+            }
+
+            if(level2Started){
+                if(currentPixelQ==0){
+
+                    Pixels_List.Clear();
+                    SP_ListL2 = new List<GameObject>(spawnPointsL2);
+                    PixelsToShield_List.Clear();
+
+                    CancelInvoke("DeleteAllPixels");
+                    CancelInvoke("CrearPixelL3");
+                    InvokeRepeating("CrearPixelL3", 0.0f, tDesaparicionL3+0.5f);
+                    InvokeRepeating("DeleteAllPixels", tDesaparicionL3,tDesaparicionL3);
+                    
+                    
+                    
+
+
+
+                }
+
+            }
                 
             
                 
         }
+
+        //Descanso
         if(segundosTotales>tL1+tL2+tL3 && !freeTStarted){
 
             
-
             Descanso();
 
         }
-        if(segundosTotales>tL1+tL2+tL3+tDescanso){
+
+        //Nivel 4
+        if(segundosTotales>tL1+tL2+tL3+tDescanso && segundosTotales<tL1+tL2+tL3+tDescanso+tL4){
 
             if(!level4Started){
                 Level4();
 
             }
-            
-            
-
-        }
-
-        if(segundosTotales>tL1+tL2+tL3+tDescanso && segundosTotales<tL1+tL2+tL3+tDescanso+tL4){
 
             if(level4Started){
                 if(currentPixelQ==0){
@@ -127,13 +175,17 @@ public class GM : MonoBehaviour
                 }
 
             }
+            
+            
 
         }
 
+      
+
 
         
         
-        
+        //Checar si hay victoria
         if(victory){
 
             ada.SetActive(false);
@@ -142,11 +194,15 @@ public class GM : MonoBehaviour
             TXTWin.SetActive(true);
 
         }
+        
+        //Nivel ADA
         if(segundosTotales>tL1+tL2+tL3+tDescanso+tL4 && !adaStarted && !victory){
             
             Ada();
 
         }
+
+        //Derrota
         if(segundosTotales>tL1+tL2+tL3+tDescanso+tL4+tADA && !victory){
             ada.SetActive(false);
             TXTADA.SetActive(false);

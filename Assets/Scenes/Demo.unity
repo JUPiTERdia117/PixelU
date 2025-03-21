@@ -3438,11 +3438,11 @@ MonoBehaviour:
   - {fileID: 406435546}
   - {fileID: 1749331102}
   - {fileID: 189133455}
-  tL1: 6
-  tL2: 6
-  tL3: 6
+  tL1: 30
+  tL2: 30
+  tL3: 30
   tDescanso: 6
-  tL4: 7
+  tL4: 30
   tADA: 25
   level1Q: 16
   level2Q: 8
