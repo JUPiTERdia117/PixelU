@@ -46,6 +46,8 @@ public class GM : MonoBehaviour
 
     bool victory = false;//Variable que indica si se ha ganado
 
+    int scoreRed, scoreGreen, scoreBlue, scoreYellow, scorePink, scorePurple, scoreOrange, scoreCyan = 0; //Puntajes de cada jugador
+
 
     void Awake(){
         //Inicializar listas
@@ -231,11 +233,47 @@ public class GM : MonoBehaviour
                     PixelController pController = pixelGolpeado.GetComponent<PixelController>();
                     //Quitar vida al pixel, si se queda sin vida se elimina
                     if(pController.QuitarVida()==0){
+                        
                         GameObject pixelParent = pixelGolpeado.transform.parent.gameObject;
                         Pixels_List.Remove(pixelGolpeado);
                         PixelsToShield_List.Remove(pixelGolpeado);
                         currentPixelQ--;
                         SP_List.Add(pixelParent);//Para nivel 1
+                        int idPixel = pController.DestruirPixel();
+                        if(idPixel==1){
+                            scoreRed++;
+                        }
+                        if(idPixel==2){
+                            scoreGreen++;
+                        }
+                        if(idPixel==3){
+                            scoreBlue++;
+                        }
+                        if(idPixel==4){
+                            scoreYellow++;
+                        }
+                        if(idPixel==5){
+                            scorePink++;
+                        }
+                        if(idPixel==6){
+                            scorePurple++;
+                        }
+                        if(idPixel==7){
+                            scoreOrange++;
+                        }
+                        if(idPixel==8){
+                            scoreCyan++;
+                        } 
+                        if(idPixel==9){
+                            scoreRed++;
+                            scoreGreen++;
+                            scoreBlue++;
+                            scoreYellow++;
+                            scorePink++;
+                            scorePurple++;
+                            scoreOrange++;
+                            scoreCyan++;
+                        }
                         //SP_ListL2.Add(pixelParent); // Para nivel 2 y 3
 
                     }
@@ -306,6 +344,9 @@ public class GM : MonoBehaviour
 
     //Comienza el nivel 2
     void Level2(){
+
+        Debug.Log("Puntaje roko: "+scoreRed);
+        Debug.Log("Puntaje verde: "+scoreGreen);
 
         TXTL1.SetActive(false);
         TXTL2.SetActive(true);

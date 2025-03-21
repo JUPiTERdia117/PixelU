@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 7803618600542623926}
   - component: {fileID: 3876083778279088635}
   m_Layer: 0
-  m_Name: PixelV1(Original)
+  m_Name: Pixel(Original)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

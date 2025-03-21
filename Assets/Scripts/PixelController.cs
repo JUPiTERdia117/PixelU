@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PixelController : MonoBehaviour
 {
+
+    [SerializeField] int Id;// Identificador de Pixel
     
     [SerializeField] int vida;// Vida inicial de Pixel
 
@@ -67,9 +69,6 @@ public class PixelController : MonoBehaviour
 
         vida--;
 
-        if(vida==0){
-            DestruirPixel();
-        }
 
         if(vida==1){
             DesactivarEscudos();
@@ -80,13 +79,15 @@ public class PixelController : MonoBehaviour
     }
 
     // Método para destruir Pixel
-    public void DestruirPixel(){
+    public int DestruirPixel(){
 
     
 
         //Animacion
 
         Destroy(this.gameObject);
+
+        return Id;
 
 
 
