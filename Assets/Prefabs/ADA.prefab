@@ -168,9 +168,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vida: 1
   maxSize: 15
-  growthSpeed: 15
-  tiempoGolpeReciente: 1
-  tToHit: 4
+  growthSpeed: 2
+  shrinkSpeed: 0.25
+  creciendo: 0
+  tToHit: 1.5
 --- !u!114 &688131537314653294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,7 +211,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 6
+  m_PointLightOuterRadius: 3
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
