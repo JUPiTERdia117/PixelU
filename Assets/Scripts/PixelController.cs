@@ -5,14 +5,14 @@ using UnityEngine;
 public class PixelController : MonoBehaviour
 {
     
-    [SerializeField] int vida;
+    [SerializeField] int vida;// Vida inicial de Pixel
 
-    [SerializeField] SpriteRenderer shieldSprite;
+    [SerializeField] SpriteRenderer shieldSprite;//Sprite del escudo
 
     //bool shieldActive = false;
-    bool movement = false, movementAl = false;
+    bool movement = false, movementAl = false;//Condiciones para activar movimiento 
 
-    float startX, direction;
+    float startX, direction;//Posición inicial y dirección del movimiento
     
 
 
@@ -21,6 +21,7 @@ public class PixelController : MonoBehaviour
     
 
     void Awake(){
+        // Asignar la posición inicial
         startX = transform.position.x;
         // Aleatoriamente asignar dirección (1 para derecha, -1 para izquierda)
         direction = Random.value > 0.5f ? 1 : -1;
@@ -35,13 +36,15 @@ public class PixelController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Si se activa el movimiento
         if(movement){
 
-
+            // Movimiento de PingPong
             float speed = 2.5f;
             float width = 12f;
             transform.position = new Vector2(Mathf.PingPong(Time.time * speed, 2*width)+(startX-width), transform.position.y);
         }
+        // Si se activa el movimiento aleatorio
         if(movementAl){
             float speed = 2.5f;
             float width = 12f;
@@ -59,6 +62,7 @@ public class PixelController : MonoBehaviour
         
     }
 
+    // Método  para quitar  vida a Pixel
     public int QuitarVida(){
 
         vida--;
@@ -75,6 +79,7 @@ public class PixelController : MonoBehaviour
 
     }
 
+    // Método para destruir Pixel
     public void DestruirPixel(){
 
     
@@ -86,7 +91,8 @@ public class PixelController : MonoBehaviour
 
 
     }
-
+    
+    // Método para activar escudos
     public void ActivarEscudos(){
 
         
@@ -101,7 +107,7 @@ public class PixelController : MonoBehaviour
 
     }
     
-
+    // Método para desactivar escudos
     public void DesactivarEscudos(){
 
         shieldSprite.enabled = false;
@@ -110,12 +116,14 @@ public class PixelController : MonoBehaviour
 
     }
 
+    // Método para activar movimiento
     public void ActivarMovimiento(){
 
         movement = true;
 
     }
-
+    
+    // Método para activar movimiento aleatorio
     public void ActivarMovimientoAleatorio(){
 
         movementAl = true;
