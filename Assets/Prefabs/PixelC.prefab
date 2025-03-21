@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PixelC
       objectReference: {fileID: 0}
+    - target: {fileID: 3876083778279088635, guid: ace429b0f007b4c0cacf9f4674e9d58b, type: 3}
+      propertyPath: Id
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4436243022076745212, guid: ace429b0f007b4c0cacf9f4674e9d58b, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.4

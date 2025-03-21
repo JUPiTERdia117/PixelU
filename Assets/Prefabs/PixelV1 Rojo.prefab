@@ -10,7 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3732903586489297990, guid: ace429b0f007b4c0cacf9f4674e9d58b, type: 3}
       propertyPath: m_Name
-      value: PixelV1(Original) Rojo
+      value: PixelV1 Rojo
+      objectReference: {fileID: 0}
+    - target: {fileID: 3876083778279088635, guid: ace429b0f007b4c0cacf9f4674e9d58b, type: 3}
+      propertyPath: Id
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5731632484261802581, guid: ace429b0f007b4c0cacf9f4674e9d58b, type: 3}
       propertyPath: m_Color.b
