@@ -5,14 +5,14 @@ using TMPro;
 
 public class GM : MonoBehaviour
 {
-    [SerializeField] GameObject[] spawnPoints, spawnPointsL2;
+    [SerializeField] GameObject[] spawnPoints, spawnPointsL2;// Puntos de spawneo de pixeles. 
 
     //Tiempos (segundos) de cada seccion
-    [SerializeField] float tL1, tL2, tL3, tDescanso, tL4, tADA; 
+    [SerializeField] float tL1, tL2, tL3, tDescanso, tL4, tADA; //Tiempos de cada seccion
 
-    PixelSpawner pixelSP;
+    PixelSpawner pixelSP; //Referencia a script de spawneo de pixeles
 
-    List<GameObject> SP_List, SP_ListL2, Pixels_List;
+    List<GameObject> SP_List, SP_ListL2, Pixels_List; //Listas de puntos de spawneo y pixeles
 
     static public List<GameObject> PixelsToShield_List; //Lista de pixeles disponibles para dar escudos.
 
@@ -21,7 +21,7 @@ public class GM : MonoBehaviour
     [SerializeField] GameObject glitch; //El glitch
     [SerializeField] GameObject ada; //El ada
 
-    int currentPixelQ = 0;//Cantidad actual de pixeles
+    int currentPixelQ = 0;//Cantidad actual de pixeles en pantalla
 
     int aviableSpawnQ = 0; //Cantidad disponible de spawns para cada nivel
 
@@ -30,30 +30,31 @@ public class GM : MonoBehaviour
 
     //[SerializeField] int tDesaparicion;
 
-    [SerializeField] float tActivacionGL1, tActivacionGL2, tActivacionGL3;
+    [SerializeField] float tActivacionGL1, tActivacionGL2, tActivacionGL3; //Tiempos de activacion de glitch
 
     //Variables que sirven para tener control del tiempo
     private float tiempoTranscurrido = 0f;
     private int minutos, segundos, centesimas, segundosTotales;
 
-    bool level1Started , level2Started ,level3Started , freeTStarted , level4Started, adaStarted = false;
+    bool level1Started , level2Started ,level3Started , freeTStarted , level4Started, adaStarted = false; // Variables que indican si cada nivel ha empezado
 
-    GlitchController glitchC;
+    GlitchController glitchC; //Referencia a script de glitch
 
-    AdaController adaC;
+    AdaController adaC; //Referencia a script de ada
 
-    [SerializeField] GameObject TXTL1,TXTL2,TXTL3,TXTL4,TXTDESCANSO,TXTADA, TXTWin, TXTLose;
+    [SerializeField] GameObject TXTL1,TXTL2,TXTL3,TXTL4,TXTDESCANSO,TXTADA, TXTWin, TXTLose; //Textos de nivel
 
-    bool victory = false;
+    bool victory = false;//Variable que indica si se ha ganado
 
 
     void Awake(){
-        //Lista que contiene posibles puntos de spawneo de pixeles
+        //Inicializar listas
         SP_List = new List<GameObject>(spawnPoints);
         SP_ListL2 = new List<GameObject>(spawnPointsL2);
         Pixels_List = new List<GameObject>();
         PixelsToShield_List = new List<GameObject>();
 
+        //Inicializar referencias
         glitchC =glitch.GetComponent<GlitchController>();
         adaC =ada.GetComponent<AdaController>();
     }
@@ -70,6 +71,7 @@ public class GM : MonoBehaviour
     void Update()
     {
 
+        //Actualizar tiempo
         tiempoTranscurrido += Time.deltaTime;
         minutos = (int)(tiempoTranscurrido/60f);
         segundos = (int)(tiempoTranscurrido - minutos*60f);
@@ -78,6 +80,7 @@ public class GM : MonoBehaviour
         segundosTotales = (minutos*60 + segundos);
 
         
+        //Nivel 1
         if(!level1Started){
 
             //Llega glitch
@@ -94,7 +97,7 @@ public class GM : MonoBehaviour
 
             }
             
-
+            //Si se ha terminado de eliminar los pixeles
             if(level2Started){
                 if(currentPixelQ==0){
 
@@ -125,6 +128,7 @@ public class GM : MonoBehaviour
                 Level3();
             }
 
+            //Si se ha terminado de eliminar los pixeles
             if(level2Started){
                 if(currentPixelQ==0){
 
@@ -166,6 +170,7 @@ public class GM : MonoBehaviour
 
             }
 
+            //Si se ha terminado de eliminar los pixeles
             if(level4Started){
                 if(currentPixelQ==0){
                     victory = true;
@@ -220,9 +225,11 @@ public class GM : MonoBehaviour
             if (hit.collider != null)
             {
 
+                //Si se ha hecho click en un pixel
                 if(hit.collider.tag == "Enemy"){
                     GameObject pixelGolpeado = hit.collider.gameObject;
                     PixelController pController = pixelGolpeado.GetComponent<PixelController>();
+                    //Quitar vida al pixel, si se queda sin vida se elimina
                     if(pController.QuitarVida()==0){
                         GameObject pixelParent = pixelGolpeado.transform.parent.gameObject;
                         Pixels_List.Remove(pixelGolpeado);
@@ -233,21 +240,24 @@ public class GM : MonoBehaviour
 
                     }
                     else{
-
+                        //Si no se ha quedado sin vida, se agrega a la lista de pixeles para dar escudo
                         PixelsToShield_List.Add(pixelGolpeado);
 
                     }
 
                                     
                 }
+                //Si se ha hecho click en el glitch
                 if(hit.collider.tag == "Glitch"){
-
+                    //quitar vida al glitch
                     glitchC.QuitarVida();
 
                 }
+                //Si se ha hecho click en Ada
                 if(hit.collider.tag == "Ada"){
-
+                    //Dar vida a Ada
                     if(adaC.DarVida()){
+                        //Si retorna true, se ha ganado
                         victory = true;
                         
                     }
@@ -258,16 +268,17 @@ public class GM : MonoBehaviour
         
     }
 
-
+    //Comienza el nivel 1
     void Level1(){
 
         level1Started = true;
         Debug.Log("Nivel 1 iniciado");
-
+        
         aviableSpawnQ = level1Q;
 
+        //Si hay spawns
         if (spawnPoints.Length != 0){
-            
+            //Si hay la cantidad requerida de spawns
             if(spawnPoints.Length >= level1Q)
             {
                 //Spawnea la cantidad requerida, sin repetir
@@ -281,17 +292,19 @@ public class GM : MonoBehaviour
                 Debug.LogWarning("No hay la suficiente cantidad de spawns");
             }
 
-            //InvokeRepeating("DesaparecerPixel", 5f, tDesaparicion);
+            //Invocar funcion de aparicion de pixeles (uno a la vez)
             InvokeRepeating("AparecerPixel", 5f, tAparicion);
             
         }
 
-       glitchC.EntradaGlitch();
+        //Activar glitch
+        glitchC.EntradaGlitch();
 
         StartCoroutine(ActivarG(5.0f, tActivacionGL1));
 
     }
 
+    //Comienza el nivel 2
     void Level2(){
 
         TXTL1.SetActive(false);
@@ -325,6 +338,7 @@ public class GM : MonoBehaviour
 
     }
 
+    //Comienza el nivel 3
     void Level3(){
 
         TXTL2.SetActive(false);
@@ -348,6 +362,7 @@ public class GM : MonoBehaviour
 
     }
 
+    //Comienza el descanso
     void Descanso(){
         
         glitchC.SalidaGlitch();
@@ -364,6 +379,7 @@ public class GM : MonoBehaviour
 
     }
 
+    //Comienza el nivel 4
     void Level4(){
 
         TXTDESCANSO.SetActive(false);
@@ -398,6 +414,7 @@ public class GM : MonoBehaviour
 
     }
 
+    //Comienza el nivel ADA
     void Ada(){
 
         TXTL4.SetActive(false);
@@ -412,6 +429,8 @@ public class GM : MonoBehaviour
         ada.SetActive(true);
 
     }
+
+    //Crea un pixel a la vez, estacionario
 
     void CrearPixel(){
 
@@ -453,6 +472,7 @@ public class GM : MonoBehaviour
 
     }
 
+    //Crea cierta cantidad de pixeles a la vez, en movimiento
     void CrearPixelL2(){
 
         
@@ -513,6 +533,7 @@ public class GM : MonoBehaviour
 
     }
 
+    //Crea cierta cantidad de pixeles a la vez, en movimiento aleatorio
     void CrearPixelL3(){
 
         
@@ -570,6 +591,7 @@ public class GM : MonoBehaviour
 
     }
 
+    //Elimina un pixel aleatorio, en desuso actualmente
     void DesaparecerPixel(){
         if(Pixels_List.Count>0){
             int randomIndex = Random.Range(0, Pixels_List.Count); // Elegir un índice aleatorio
@@ -615,7 +637,7 @@ public class GM : MonoBehaviour
 
     }
     
-
+    //Llama a la funcion de crear pixel
     void AparecerPixel(){
 
         CrearPixel();
@@ -624,9 +646,7 @@ public class GM : MonoBehaviour
 
    
 
-    
-
-    
+    //Activa el glitch    
     private IEnumerator ActivarG(float segundos, float tActivacionG){
         
      
@@ -635,6 +655,8 @@ public class GM : MonoBehaviour
         
         glitchC.ActivarGlitch(tActivacionG);
     }
+
+    //Inicia el descanso despues de cierto tiempo
 
     private IEnumerator EmpezarD(float segundos){
         
