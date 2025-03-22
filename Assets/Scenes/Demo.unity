@@ -3419,18 +3419,18 @@ MonoBehaviour:
   - {fileID: 406435546}
   - {fileID: 1749331102}
   - {fileID: 189133455}
-  tL1: 30
-  tL2: 30
-  tL3: 30
+  tL1: 35
+  tL2: 35
+  tL3: 35
   tDescanso: 6
   tL4: 25
   tADA: 20
-  level1Q: 16
+  level1Q: 12
   level2Q: 8
   level3Q: 16
   glitch: {fileID: 1140736264}
   ada: {fileID: 1665677068}
-  tAparicion: 3
+  tAparicion: 1.5
   tDesaparicionL2: 15
   tDesaparicionL3: 15
   tActivacionGL1: 5

@@ -37,7 +37,7 @@ public class GlitchController : MonoBehaviour
     bool isValid = false;//Condición para movimiento
     
     
-    private float elapsedTime = 0f;//variable para llevar el tiempo de las animaciones
+    private float elapsedTime, elapsedTimeAnim = 0f;//Variables para tiempo transcurrido
 
     // Start is called before the first frame update
     void Awake()
@@ -92,30 +92,33 @@ public class GlitchController : MonoBehaviour
         //Si se activa la animación de entrada
         if(animEn){
             //Si el tiempo transcurrido es menor a 1 segundo
-            if (elapsedTime < 1.0f)
+            if (elapsedTimeAnim< 1.0f)
             {   
-                elapsedTime += Time.deltaTime;
-                float t = elapsedTime / 1.0f;
+                elapsedTimeAnim += Time.deltaTime;
+                float t = elapsedTimeAnim / 1.0f;
                 //Interpolación de escala
                 transform.localScale = Vector3.Lerp(Vector3.zero,new Vector3(0.48f,0.48f,0.48f) , t);
             }else{
                 //Reiniciar el tiempo y desactivar la animación
-                elapsedTime = 0.0f;
+                elapsedTimeAnim = 0.0f;
                 animEn = false;
             }
         }
 
         //Si se activa la animación de salida
         if(animSal){
-            if (elapsedTime < 1.0f)
+            
+           
+            if (elapsedTimeAnim < 1.0f)
             {
-                elapsedTime += Time.deltaTime;
-                float t = elapsedTime / 1.0f;
+                Debug.Log("Animación de salida");
+                elapsedTimeAnim += Time.deltaTime;
+                float t = elapsedTimeAnim / 1.0f;
                 //Interpolación de escala
                 transform.localScale = Vector3.Lerp(new Vector3(0.48f,0.48f,0.48f), Vector3.zero, t);
             }else{
                 //Reiniciar el tiempo y desactivar la animación
-                elapsedTime = 0.0f;
+                elapsedTimeAnim = 0.0f;
                 animSal = false;
             }
 

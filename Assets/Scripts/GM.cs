@@ -26,7 +26,7 @@ public class GM : MonoBehaviour
     int aviableSpawnQ = 0; //Cantidad disponible de spawns para cada nivel
 
     //Tiempo de aparicion y desaparicion de pixeles
-    [SerializeField] int tAparicion, tDesaparicionL2, tDesaparicionL3;
+    [SerializeField] float tAparicion, tDesaparicionL2, tDesaparicionL3;
 
     //[SerializeField] int tDesaparicion;
 
@@ -318,7 +318,7 @@ public class GM : MonoBehaviour
         level1Started = true;
         Debug.Log("Nivel 1 iniciado");
         
-        aviableSpawnQ = level1Q;
+        aviableSpawnQ = level1Q+4;
 
         //Si hay spawns
         if (spawnPoints.Length != 0){
@@ -337,7 +337,7 @@ public class GM : MonoBehaviour
             }
 
             //Invocar funcion de aparicion de pixeles (uno a la vez)
-            InvokeRepeating("AparecerPixel", 5f, tAparicion);
+            InvokeRepeating("AparecerPixel", 2.5f, tAparicion);
             
         }
 
