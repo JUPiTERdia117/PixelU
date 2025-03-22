@@ -693,7 +693,7 @@ public class GM : MonoBehaviour
 
    
 
-    //Activa el glitch    
+    //Activa el glitch, se le asigna un tiempo de activacion y un tiempo de movimiento
     private IEnumerator ActivarG(float segundos, float tActivacionG, float tMovGlitch){
         
         Debug.Log("Activando glitch en "+segundos+" segundos");

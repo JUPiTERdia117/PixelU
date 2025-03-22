@@ -16,7 +16,7 @@ public class GlitchController : MonoBehaviour
     
     [SerializeField] float tCadenciaEscudos;//Tiempo de cadencia para dar escudos
 
-    float tCadenciaMovimiento;//Tiempo de cadencia para movimiento
+    float tCadenciaMovimiento;//Tiempo actual de cadencia para movimiento
 
     float curentTActivacion;//Tiempo de activación actual
 
@@ -58,15 +58,9 @@ public class GlitchController : MonoBehaviour
 
         // Si está activado el glitch
         if(glitchActivado){
-            /*
-            timeCounter += Time.deltaTime;
-            // Movimiento de Glitch
-
-            transform.position = new Vector2(Mathf.PingPong(timeCounter * speed, 2*width)+(startX-width), transform.position.y);
-            */
-
+           
             
-            
+            //Si se puede mover
             if(isValid){
                 
 
@@ -288,6 +282,7 @@ public class GlitchController : MonoBehaviour
         
     }
     
+    //Método para mover el glitch
     void Movement()
     {
         
@@ -297,10 +292,10 @@ public class GlitchController : MonoBehaviour
             
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / tCadenciaMovimiento;
-            //Interpolación de escala
+            //Interpolación de posición
             transform.position = Vector3.Lerp(transform.position, new Vector3(xNewPos, transform.position.y, transform.position.z), t);
         }else{
-            Debug.Log("Llegó a la posición");
+            
             isValid = false;
             //Reiniciar el tiempo y desactivar movimiento
             elapsedTime = 0.0f;
@@ -315,10 +310,12 @@ public class GlitchController : MonoBehaviour
     {
 
         
-        Debug.Log("Elige nueva posición");
+        //Elegir una nueva posición aleatoria
         while(!isValid){
-           
+            
+            //Elegir una nueva posición
             xNewPos = Random.Range(-width, width);
+            //Si la nueva posición está dentro del rango de movimiento
             if((xNewPos>(transform.position.x+movementRange) && xNewPos < width-movementRange ) || (xNewPos<(transform.position.x-movementRange) && xNewPos > -width+movementRange)){
                 isValid = true;
             }
