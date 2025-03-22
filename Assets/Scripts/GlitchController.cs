@@ -16,6 +16,8 @@ public class GlitchController : MonoBehaviour
     
     [SerializeField] float tCadenciaEscudos;//Tiempo de cadencia para dar escudos
 
+    float tCadenciaMovimiento;//Tiempo de cadencia para movimiento
+
     float curentTActivacion;//Tiempo de activación actual
 
     int vida = 0;//Vida actual de Glitch
@@ -53,6 +55,7 @@ public class GlitchController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         // Si está activado el glitch
         if(glitchActivado){
             /*
@@ -62,10 +65,15 @@ public class GlitchController : MonoBehaviour
             transform.position = new Vector2(Mathf.PingPong(timeCounter * speed, 2*width)+(startX-width), transform.position.y);
             */
 
-            if(isValid == false){
-                ChooseNewPos();
-            }else{
+            
+            
+            if(isValid){
+                
+
                 Movement();
+
+            }else{
+                ChooseNewPos();
             }
             
             
@@ -156,9 +164,11 @@ public class GlitchController : MonoBehaviour
     }
 
     //Método para activar el glitch con tiempo de activación
-    public void ActivarGlitch(float tActivacion){
+    public void ActivarGlitch(float tActivacion, float tMovGlitch){
         //Asignar el tiempo de activación
         curentTActivacion = tActivacion;
+
+        tCadenciaMovimiento = tMovGlitch;
 
         glitchActivado = true;
 
@@ -281,17 +291,18 @@ public class GlitchController : MonoBehaviour
     void Movement()
     {
         
-        if (elapsedTime < 1.0f)
+        
+        if (elapsedTime < tCadenciaMovimiento)
         {
-            Debug.Log("Moviendo");
+            
             elapsedTime += Time.deltaTime;
-            float t = elapsedTime / 1.0f;
+            float t = elapsedTime / tCadenciaMovimiento;
             //Interpolación de escala
             transform.position = Vector3.Lerp(transform.position, new Vector3(xNewPos, transform.position.y, transform.position.z), t);
         }else{
             Debug.Log("Llegó a la posición");
-            //Reiniciar el tiempo y desactivar movimiento
             isValid = false;
+            //Reiniciar el tiempo y desactivar movimiento
             elapsedTime = 0.0f;
         }
         
@@ -302,24 +313,20 @@ public class GlitchController : MonoBehaviour
 
     void ChooseNewPos()
     {
-        
 
-        bool isValid = false;
         
-        do{
+        Debug.Log("Elige nueva posición");
+        while(!isValid){
            
             xNewPos = Random.Range(-width, width);
-            if((xNewPos>(transform.position.x+movementRange)&& xNewPos<width) || (xNewPos<(transform.position.x-movementRange)&& xNewPos>-width)){
-
-                
+            if((xNewPos>(transform.position.x+movementRange) && xNewPos < width-movementRange ) || (xNewPos<(transform.position.x-movementRange) && xNewPos > -width+movementRange)){
                 isValid = true;
             }
             else{
                 
                 isValid = false;
             }
-
-        }while(!isValid);
+        }
     }
 
 

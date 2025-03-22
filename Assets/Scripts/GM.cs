@@ -44,6 +44,8 @@ public class GM : MonoBehaviour
 
     [SerializeField] GameObject TXTL1,TXTL2,TXTL3,TXTL4,TXTDESCANSO,TXTADA, TXTWin, TXTLose; //Textos de nivel
 
+    [SerializeField] float tMovGlitchL1, tMovGlitchL2, tMovGlitchL3; //Tiempos de movimiento de glitch
+
     bool victory = false;//Variable que indica si se ha ganado
 
     int scoreRed, scoreGreen, scoreBlue, scoreYellow, scorePink, scorePurple, scoreOrange, scoreCyan = 0; //Puntajes de cada jugador
@@ -342,7 +344,7 @@ public class GM : MonoBehaviour
         //Activar glitch
         glitchC.EntradaGlitch();
 
-        StartCoroutine(ActivarG(5.0f, tActivacionGL1));
+        StartCoroutine(ActivarG(5.0f, tActivacionGL1, tMovGlitchL1));
 
     }
 
@@ -373,7 +375,7 @@ public class GM : MonoBehaviour
             
         
 
-        StartCoroutine(ActivarG(5.0f, tActivacionGL2));
+        StartCoroutine(ActivarG(5.0f, tActivacionGL2, tMovGlitchL2));
 
         
 
@@ -403,7 +405,7 @@ public class GM : MonoBehaviour
         InvokeRepeating("DeleteAllPixels", tDesaparicionL3,tDesaparicionL3);
         InvokeRepeating("CrearPixelL3", 0.0f,tDesaparicionL3+0.5f);
 
-        StartCoroutine(ActivarG(5.0f, tActivacionGL3));
+        StartCoroutine(ActivarG(5.0f, tActivacionGL3, tMovGlitchL3));
 
     }
 
@@ -692,13 +694,14 @@ public class GM : MonoBehaviour
    
 
     //Activa el glitch    
-    private IEnumerator ActivarG(float segundos, float tActivacionG){
+    private IEnumerator ActivarG(float segundos, float tActivacionG, float tMovGlitch){
         
+        Debug.Log("Activando glitch en "+segundos+" segundos");
      
         yield return new WaitForSeconds(segundos);
             
         
-        glitchC.ActivarGlitch(tActivacionG);
+        glitchC.ActivarGlitch(tActivacionG, tMovGlitch);
     }
 
     //Inicia el descanso despues de cierto tiempo

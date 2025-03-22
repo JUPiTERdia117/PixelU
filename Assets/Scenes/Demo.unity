@@ -3420,11 +3420,11 @@ MonoBehaviour:
   - {fileID: 1749331102}
   - {fileID: 189133455}
   tL1: 30
-  tL2: 6
-  tL3: 6
+  tL2: 30
+  tL3: 30
   tDescanso: 6
-  tL4: 6
-  tADA: 25
+  tL4: 25
+  tADA: 20
   level1Q: 16
   level2Q: 8
   level3Q: 16
@@ -3433,7 +3433,7 @@ MonoBehaviour:
   tAparicion: 3
   tDesaparicionL2: 15
   tDesaparicionL3: 15
-  tActivacionGL1: 15
+  tActivacionGL1: 5
   tActivacionGL2: 10
   tActivacionGL3: 5
   TXTL1: {fileID: 349061804}
@@ -3444,6 +3444,9 @@ MonoBehaviour:
   TXTADA: {fileID: 1842166574}
   TXTWin: {fileID: 403645662}
   TXTLose: {fileID: 1194313570}
+  tMovGlitchL1: 8
+  tMovGlitchL2: 5
+  tMovGlitchL3: 3
 --- !u!4 &1385471962
 Transform:
   m_ObjectHideFlags: 0
