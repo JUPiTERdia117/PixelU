@@ -20,26 +20,29 @@ public class GlitchController : MonoBehaviour
 
     int vida = 0;//Vida actual de Glitch
 
-    float startX;//Posición inicial de Glitch
+    float startX, xNewPos;//Posición inicial de Glitch y nueva posición
 
     float timeCounter = 0f; // Variable para llevar el tiempo del PingPong
 
     bool isFirstActivation = true;//Condición para la primera activación
 
-    float speed = 2.5f, width = 12.0f;//Velocidad y ancho del movimiento
+    float speed = 2.5f, width = 30.0f;//Velocidad y ancho máximo de movimiento
+
+    [SerializeField] float movementRange;//Rango de movimiento
 
     bool animEn, animSal = false;//Condiciones para animaciones de entrada y salida
 
+    bool isValid = false;//Condición para movimiento
     
     
-    private float elapsedTime = 0f;
+    private float elapsedTime = 0f;//variable para llevar el tiempo de las animaciones
 
     // Start is called before the first frame update
     void Awake()
     {
         // Asignar la vida inicial
         vida = tempVida;
-        startX = transform.position.x;
+        startX = transform.position.x;//Asignar la posición inicial
 
         
 
@@ -52,10 +55,20 @@ public class GlitchController : MonoBehaviour
     {
         // Si está activado el glitch
         if(glitchActivado){
-            
+            /*
             timeCounter += Time.deltaTime;
-            // Movimiento de PingPong
+            // Movimiento de Glitch
+
             transform.position = new Vector2(Mathf.PingPong(timeCounter * speed, 2*width)+(startX-width), transform.position.y);
+            */
+
+            if(isValid == false){
+                ChooseNewPos();
+            }else{
+                Movement();
+            }
+            
+            
         }
 
         // Si no está activado el glitch y la vida es 0
@@ -264,7 +277,50 @@ public class GlitchController : MonoBehaviour
 
         
     }
+    
+    void Movement()
+    {
+        
+        if (elapsedTime < 1.0f)
+        {
+            Debug.Log("Moviendo");
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / 1.0f;
+            //Interpolación de escala
+            transform.position = Vector3.Lerp(transform.position, new Vector3(xNewPos, transform.position.y, transform.position.z), t);
+        }else{
+            Debug.Log("Llegó a la posición");
+            //Reiniciar el tiempo y desactivar movimiento
+            isValid = false;
+            elapsedTime = 0.0f;
+        }
+        
 
+        
+            
+    }
+
+    void ChooseNewPos()
+    {
+        
+
+        bool isValid = false;
+        
+        do{
+           
+            xNewPos = Random.Range(-width, width);
+            if((xNewPos>(transform.position.x+movementRange)&& xNewPos<width) || (xNewPos<(transform.position.x-movementRange)&& xNewPos>-width)){
+
+                
+                isValid = true;
+            }
+            else{
+                
+                isValid = false;
+            }
+
+        }while(!isValid);
+    }
 
 
     

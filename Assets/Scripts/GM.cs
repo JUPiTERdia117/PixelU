@@ -240,40 +240,44 @@ public class GM : MonoBehaviour
                         currentPixelQ--;
                         SP_List.Add(pixelParent);//Para nivel 1
                         int idPixel = pController.DestruirPixel();
-                        if(idPixel==1){
-                            scoreRed++;
+                        
+                        switch(idPixel){
+                            case 1:
+                                scoreRed++;
+                                break;
+                            case 2:
+                                scoreGreen++;
+                                break;
+                            case 3:
+                                scoreBlue++;
+                                break;
+                            case 4:
+                                scoreYellow++;
+                                break;
+                            case 5:
+                                scorePink++;
+                                break;
+                            case 6:
+                                scorePurple++;
+                                break;
+                            case 7:
+                                scoreOrange++;
+                                break;
+                            case 8:
+                                scoreCyan++;
+                                break;
+                            case 9:
+                                scoreRed++;
+                                scoreGreen++;
+                                scoreBlue++;
+                                scoreYellow++;
+                                scorePink++;
+                                scorePurple++;
+                                scoreOrange++;
+                                scoreCyan++;
+                                break;
                         }
-                        if(idPixel==2){
-                            scoreGreen++;
-                        }
-                        if(idPixel==3){
-                            scoreBlue++;
-                        }
-                        if(idPixel==4){
-                            scoreYellow++;
-                        }
-                        if(idPixel==5){
-                            scorePink++;
-                        }
-                        if(idPixel==6){
-                            scorePurple++;
-                        }
-                        if(idPixel==7){
-                            scoreOrange++;
-                        }
-                        if(idPixel==8){
-                            scoreCyan++;
-                        } 
-                        if(idPixel==9){
-                            scoreRed++;
-                            scoreGreen++;
-                            scoreBlue++;
-                            scoreYellow++;
-                            scorePink++;
-                            scorePurple++;
-                            scoreOrange++;
-                            scoreCyan++;
-                        }
+                        
                         //SP_ListL2.Add(pixelParent); // Para nivel 2 y 3
 
                     }
