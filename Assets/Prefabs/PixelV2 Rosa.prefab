@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PixelV2 Rosa
       objectReference: {fileID: 0}
+    - target: {fileID: 300043120367085506, guid: 4bb52c19dfa454fcf967c56e01fc43a0, type: 3}
+      propertyPath: Id
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5349997105394829513, guid: 4bb52c19dfa454fcf967c56e01fc43a0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

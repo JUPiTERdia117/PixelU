@@ -127,7 +127,7 @@ public class GlitchController : MonoBehaviour
         
     }
     // Método para quitar vida a Glitch
-    public void QuitarVida(){
+    public int QuitarVida(){
         //Si el glitch está activado
         if(glitchActivado){
             vida--;
@@ -139,6 +139,7 @@ public class GlitchController : MonoBehaviour
 
         }
         
+        return vida;
 
     }
 

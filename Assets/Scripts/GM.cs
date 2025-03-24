@@ -50,6 +50,10 @@ public class GM : MonoBehaviour
 
     int scoreRed, scoreGreen, scoreBlue, scoreYellow, scorePink, scorePurple, scoreOrange, scoreCyan = 0; //Puntajes de cada jugador
 
+    //Variables temporales para pruebas de BD   
+    [SerializeField] GameObject scoreRedTXT, scoreGreenTXT, scoreBlueTXT, scoreYellowTXT, scorePinkTXT, scorePurpleTXT, scoreOrangeTXT, scoreCyanTXT; //Textos de puntajes
+
+
 
     void Awake(){
         //Inicializar listas
@@ -84,6 +88,20 @@ public class GM : MonoBehaviour
         segundosTotales = (minutos*60 + segundos);
 
         
+
+        //Actualizar puntajes en pantalla (temporal)
+        scoreRedTXT.GetComponent<TextMeshProUGUI>().text = "Red: " + scoreRed.ToString();
+    scoreGreenTXT.GetComponent<TextMeshProUGUI>().text = "Green: " + scoreGreen.ToString();
+    scoreBlueTXT.GetComponent<TextMeshProUGUI>().text = "Blue: " + scoreBlue.ToString();
+    scoreYellowTXT.GetComponent<TextMeshProUGUI>().text = "Yellow: " + scoreYellow.ToString();
+    scorePinkTXT.GetComponent<TextMeshProUGUI>().text = "Pink: " + scorePink.ToString();
+    scorePurpleTXT.GetComponent<TextMeshProUGUI>().text = "Purple: " + scorePurple.ToString();
+    scoreOrangeTXT.GetComponent<TextMeshProUGUI>().text = "Orange: " + scoreOrange.ToString();
+    scoreCyanTXT.GetComponent<TextMeshProUGUI>().text = "Cyan: " + scoreCyan.ToString();
+        
+       
+
+
         //Nivel 1
         if(!level1Started){
 
@@ -294,11 +312,23 @@ public class GM : MonoBehaviour
                 //Si se ha hecho click en el glitch
                 if(hit.collider.tag == "Glitch"){
                     //quitar vida al glitch
-                    glitchC.QuitarVida();
+                    //Dar puntos si la vida es mayor a 0
+                    if(glitchC.QuitarVida()==0){
+                        scoreRed++;
+                        scoreGreen++;
+                        scoreBlue++;
+                        scoreYellow++;
+                        scorePink++;
+                        scorePurple++;
+                        scoreOrange++;
+                        scoreCyan++;
+
+                    }
 
                 }
                 //Si se ha hecho click en Ada
                 if(hit.collider.tag == "Ada"){
+                    
                     //Dar vida a Ada
                     if(adaC.DarVida()){
                         //Si retorna true, se ha ganado
