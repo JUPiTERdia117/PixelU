@@ -15,6 +15,7 @@ public class MySQL : MonoBehaviour
     private string password = "root";
     private string connectionString;
     private MySqlConnection conn;
+    List<string> usuariosA;
 
     void Start()
     {
@@ -22,9 +23,9 @@ public class MySQL : MonoBehaviour
         conn = new MySqlConnection(connectionString);
         AbrirConexion();
 
-        List<string> usuarios = ObtenerUsuariosAsignados(0);
+        usuariosA = ObtenerUsuariosAsignados(0);
 
-        foreach (string usuario in usuarios)
+        foreach (string usuario in usuariosA)
         {
             Debug.Log(usuario);
         }
@@ -93,5 +94,71 @@ public class MySQL : MonoBehaviour
         
 
         return usuarios;
+    }
+
+    public void ActualizarPuntajes(int scoreRed, int scoreGreen, int scoreBlue, int scoreYellow, int scorePink, int scorePurple, int scoreOrange, int scoreCyan)
+    {
+        Dictionary<string, int> colorScores = new Dictionary<string, int>
+        {
+            { "Rojo", scoreRed },
+            { "Verde", scoreGreen },
+            { "Azul", scoreBlue },
+            { "Amarillo", scoreYellow },
+            { "Rosa", scorePink },
+            { "Morado", scorePurple },
+            { "Naranja", scoreOrange },
+            { "Cyan", scoreCyan }
+        };
+
+        foreach (var colorScore in colorScores)
+        {
+            try
+            {
+                string query = "UPDATE jugador SET `Pts_Juego1-New` = @score WHERE Color = @color;";
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@score", colorScore.Value);
+                    cmd.Parameters.AddWithValue("@color", colorScore.Key);
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        Debug.Log($"Puntaje actualizado para el color {colorScore.Key}: {colorScore.Value}");
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"No se encontró ningún jugador con el color {colorScore.Key}");
+                    }
+                }
+
+                // Comparar y actualizar Pts_Juego1-Record si es necesario
+                string querySelect = "SELECT `Pts_Juego1-Record` FROM jugador WHERE Color = @color;";
+                using (MySqlCommand cmdSelect = new MySqlCommand(querySelect, conn))
+                {
+                    cmdSelect.Parameters.AddWithValue("@color", colorScore.Key);
+                    object result = cmdSelect.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        int currentRecord = Convert.ToInt32(result);
+                        if (colorScore.Value > currentRecord)
+                        {
+                            string queryUpdateRecord = "UPDATE jugador SET `Pts_Juego1-Record` = @score WHERE Color = @color;";
+                            using (MySqlCommand cmdUpdateRecord = new MySqlCommand(queryUpdateRecord, conn))
+                            {
+                                cmdUpdateRecord.Parameters.AddWithValue("@score", colorScore.Value);
+                                cmdUpdateRecord.Parameters.AddWithValue("@color", colorScore.Key);
+                                cmdUpdateRecord.ExecuteNonQuery();
+                                Debug.Log($"Nuevo record para el color {colorScore.Key}: {colorScore.Value}");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError($"Error al actualizar puntajes para el color {colorScore.Key}: {ex.Message}");
+            }
+        }
     }
 }

@@ -4223,9 +4223,9 @@ MonoBehaviour:
   - {fileID: 406435546}
   - {fileID: 1749331102}
   - {fileID: 189133455}
-  tL1: 35
-  tL2: 35
-  tL3: 35
+  tL1: 20
+  tL2: 20
+  tL3: 20
   tDescanso: 6
   tL4: 25
   tADA: 20

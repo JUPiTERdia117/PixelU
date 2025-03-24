@@ -50,6 +50,10 @@ public class GM : MonoBehaviour
 
     int scoreRed, scoreGreen, scoreBlue, scoreYellow, scorePink, scorePurple, scoreOrange, scoreCyan = 0; //Puntajes de cada jugador
 
+    bool sessionOver = false; //Variable que indica si la sesion ha terminado
+
+    MySQL BD;
+
     //Variables temporales para pruebas de BD   
     [SerializeField] GameObject scoreRedTXT, scoreGreenTXT, scoreBlueTXT, scoreYellowTXT, scorePinkTXT, scorePurpleTXT, scoreOrangeTXT, scoreCyanTXT; //Textos de puntajes
 
@@ -65,6 +69,8 @@ public class GM : MonoBehaviour
         //Inicializar referencias
         glitchC =glitch.GetComponent<GlitchController>();
         adaC =ada.GetComponent<AdaController>();
+
+        BD = GetComponent<MySQL>();
     }
 
 
@@ -215,6 +221,7 @@ public class GM : MonoBehaviour
         //Checar si hay victoria
         if(victory){
 
+
             ada.SetActive(false);
             TXTL4.SetActive(false);
             TXTADA.SetActive(false);
@@ -234,6 +241,46 @@ public class GM : MonoBehaviour
             ada.SetActive(false);
             TXTADA.SetActive(false);
             TXTLose.SetActive(true);
+        }
+
+        //Fin de la sesion
+        if((segundosTotales>tL1+tL2+tL3+tDescanso+tL4+tADA || victory)  && !sessionOver){
+            sessionOver = true;
+
+            //Dar bonus por acabar la sesion
+
+            //Bonus por victoria
+            if(victory){
+
+                scoreRed = scoreRed+2;
+                scoreGreen = scoreGreen+2;
+                scoreBlue = scoreBlue+2;
+                scoreYellow = scoreYellow+2;
+                scorePink = scorePink+2;
+                scorePurple = scorePurple+2;
+                scoreOrange = scoreOrange+2;
+                scoreCyan = scoreCyan+2;
+
+
+            }
+            else{
+                //Bonus por derrota
+                scoreRed++;
+                scoreGreen++;
+                scoreBlue++;
+                scoreYellow++;
+                scorePink++;
+                scorePurple++;
+                scoreOrange++;
+                scoreCyan++;
+            }
+            
+
+
+            //Actualizar scores en BD
+            
+            BD.ActualizarPuntajes(scoreRed, scoreGreen, scoreBlue, scoreYellow, scorePink, scorePurple, scoreOrange, scoreCyan);
+
         }
 
         //Comprueba si hubo un "click"

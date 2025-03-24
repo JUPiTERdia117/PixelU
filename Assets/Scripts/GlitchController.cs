@@ -111,7 +111,7 @@ public class GlitchController : MonoBehaviour
            
             if (elapsedTimeAnim < 1.0f)
             {
-                Debug.Log("Animación de salida");
+                
                 elapsedTimeAnim += Time.deltaTime;
                 float t = elapsedTimeAnim / 1.0f;
                 //Interpolación de escala
