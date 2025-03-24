@@ -5,6 +5,7 @@ using MySql.Data.MySqlClient;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class MySQL : MonoBehaviour
 {
@@ -20,6 +21,13 @@ public class MySQL : MonoBehaviour
         connectionString = $"Server={server};Database={database};User ID={user};Password={password};";
         conn = new MySqlConnection(connectionString);
         AbrirConexion();
+
+        List<string> usuarios = ObtenerUsuariosAsignados(0);
+
+        foreach (string usuario in usuarios)
+        {
+            Debug.Log(usuario);
+        }
     }
 
     private void AbrirConexion()
@@ -29,21 +37,21 @@ public class MySQL : MonoBehaviour
             try
             {
                 conn.Open();
-                Debug.Log("Conexión abierta exitosamente con la base de datos local.");
+                Debug.Log("Conexiï¿½n abierta exitosamente con la base de datos local.");
             }
             catch (MySqlException ex)
             {
-                Debug.LogError($"Error al abrir la conexión: Código {ex.Number}, Mensaje: {ex.Message}");
+                Debug.LogError($"Error al abrir la conexiï¿½n: Cï¿½digo {ex.Number}, Mensaje: {ex.Message}");
             }
         }
     }
 
     public void Reconectar()
     {
-        // Si la conexión no está abierta, intenta reabrirla
+        // Si la conexiï¿½n no estï¿½ abierta, intenta reabrirla
         if (conn == null || conn.State != ConnectionState.Open)
         {
-            Debug.LogError("La conexión no está abierta. Reintentando abrir...");
+            Debug.LogError("La conexiï¿½n no estï¿½ abierta. Reintentando abrir...");
             AbrirConexion();
         }
     }
@@ -54,7 +62,36 @@ public class MySQL : MonoBehaviour
         {
             conn.Close();
             conn.Dispose();
-            Debug.Log("Conexión a la base de datos cerrada y recursos liberados.");
+            Debug.Log("Conexiï¿½n a la base de datos cerrada y recursos liberados.");
         }
+    }
+
+    List<string> ObtenerUsuariosAsignados(int masterId)
+    {
+        List<string> usuarios = new List<string>();
+        AbrirConexion();
+
+        try
+        {
+            string query = "SELECT id_usuario_jugador FROM jugador WHERE id_master_actual = @masterId;";
+            using (MySqlCommand cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@masterId", masterId);
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        usuarios.Add(reader.GetString("id_usuario_jugador"));
+                    }
+                }
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Debug.LogError($"Error al obtener usuarios asignados: {ex.Message}");
+        }
+        
+
+        return usuarios;
     }
 }
