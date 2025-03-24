@@ -4251,6 +4251,14 @@ MonoBehaviour:
   tMovGlitchL1: 8
   tMovGlitchL2: 5
   tMovGlitchL3: 3
+  scoreRedTXT: {fileID: 1569675703}
+  scoreGreenTXT: {fileID: 167038772}
+  scoreBlueTXT: {fileID: 654975125}
+  scoreYellowTXT: {fileID: 168908376}
+  scorePinkTXT: {fileID: 988038744}
+  scorePurpleTXT: {fileID: 1297829239}
+  scoreOrangeTXT: {fileID: 1004777528}
+  scoreCyanTXT: {fileID: 1767124126}
 --- !u!4 &1385471962
 Transform:
   m_ObjectHideFlags: 0
