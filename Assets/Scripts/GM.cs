@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GM : MonoBehaviour
 {
@@ -46,6 +47,8 @@ public class GM : MonoBehaviour
 
     [SerializeField] float tMovGlitchL1, tMovGlitchL2, tMovGlitchL3; //Tiempos de movimiento de glitch
 
+    [SerializeField] GameObject inputField, blackScreen, TXTInputF, TXTInputF2; //Pantalla de carga y textos de input field
+
     bool victory = false;//Variable que indica si se ha ganado
 
     int scoreRed, scoreGreen, scoreBlue, scoreYellow, scorePink, scorePurple, scoreOrange, scoreCyan = 0; //Puntajes de cada jugador
@@ -85,307 +88,321 @@ public class GM : MonoBehaviour
     void Update()
     {
 
-        //Actualizar tiempo
-        tiempoTranscurrido += Time.deltaTime;
-        minutos = (int)(tiempoTranscurrido/60f);
-        segundos = (int)(tiempoTranscurrido - minutos*60f);
-        centesimas = (int)((tiempoTranscurrido - (int)tiempoTranscurrido)*100f);
+        if(BD.gameAllowed){
 
-        segundosTotales = (minutos*60 + segundos);
+            inputField.SetActive(false);
+            blackScreen.SetActive(false);
+            TXTInputF.SetActive(false);
+            TXTInputF2.SetActive(false);
 
-        
+            //Debug.Log("Acceso permitido al juego.");
 
-        //Actualizar puntajes en pantalla (temporal)
-        scoreRedTXT.GetComponent<TextMeshProUGUI>().text = "Red: " + scoreRed.ToString();
-    scoreGreenTXT.GetComponent<TextMeshProUGUI>().text = "Green: " + scoreGreen.ToString();
-    scoreBlueTXT.GetComponent<TextMeshProUGUI>().text = "Blue: " + scoreBlue.ToString();
-    scoreYellowTXT.GetComponent<TextMeshProUGUI>().text = "Yellow: " + scoreYellow.ToString();
-    scorePinkTXT.GetComponent<TextMeshProUGUI>().text = "Pink: " + scorePink.ToString();
-    scorePurpleTXT.GetComponent<TextMeshProUGUI>().text = "Purple: " + scorePurple.ToString();
-    scoreOrangeTXT.GetComponent<TextMeshProUGUI>().text = "Orange: " + scoreOrange.ToString();
-    scoreCyanTXT.GetComponent<TextMeshProUGUI>().text = "Cyan: " + scoreCyan.ToString();
-        
-       
+             //Actualizar tiempo
+            tiempoTranscurrido += Time.deltaTime;
+            minutos = (int)(tiempoTranscurrido/60f);
+            segundos = (int)(tiempoTranscurrido - minutos*60f);
+            centesimas = (int)((tiempoTranscurrido - (int)tiempoTranscurrido)*100f);
 
+            segundosTotales = (minutos*60 + segundos);
 
-        //Nivel 1
-        if(!level1Started){
-
-            //Llega glitch
-            //Empieza nivel 1
-            Level1();
-        }
-
-        //Nivel 2
-        if(segundosTotales>tL1  && segundosTotales<tL1+tL2){
-
-
-            if(!level2Started){
-                Level2();
-
-            }
             
-            //Si se ha terminado de eliminar los pixeles
-            if(level2Started){
-                if(currentPixelQ==0){
 
-                    Pixels_List.Clear();
-                    SP_ListL2 = new List<GameObject>(spawnPointsL2);
-                    PixelsToShield_List.Clear();
-
-                    CancelInvoke("DeleteAllPixels");
-                    CancelInvoke("CrearPixelL2");
-                    InvokeRepeating("CrearPixelL2", 0.0f, tDesaparicionL2+0.5f);
-                    InvokeRepeating("DeleteAllPixels", tDesaparicionL2,tDesaparicionL2);
-                    
-                    
-                    
+            //Actualizar puntajes en pantalla (temporal)
+            scoreRedTXT.GetComponent<TextMeshProUGUI>().text = "Red: " + scoreRed.ToString();
+            scoreGreenTXT.GetComponent<TextMeshProUGUI>().text = "Green: " + scoreGreen.ToString();
+            scoreBlueTXT.GetComponent<TextMeshProUGUI>().text = "Blue: " + scoreBlue.ToString();
+            scoreYellowTXT.GetComponent<TextMeshProUGUI>().text = "Yellow: " + scoreYellow.ToString();
+            scorePinkTXT.GetComponent<TextMeshProUGUI>().text = "Pink: " + scorePink.ToString();
+            scorePurpleTXT.GetComponent<TextMeshProUGUI>().text = "Purple: " + scorePurple.ToString();
+            scoreOrangeTXT.GetComponent<TextMeshProUGUI>().text = "Orange: " + scoreOrange.ToString();
+            scoreCyanTXT.GetComponent<TextMeshProUGUI>().text = "Cyan: " + scoreCyan.ToString();
+                
+        
 
 
+            //Nivel 1
+            if(!level1Started){
+
+                //Llega glitch
+                //Empieza nivel 1
+                Level1();
+            }
+
+            //Nivel 2
+            if(segundosTotales>tL1  && segundosTotales<tL1+tL2){
+
+
+                if(!level2Started){
+                    Level2();
 
                 }
+                
+                //Si se ha terminado de eliminar los pixeles
+                if(level2Started){
+                    if(currentPixelQ==0){
 
-            }
+                        Pixels_List.Clear();
+                        SP_ListL2 = new List<GameObject>(spawnPointsL2);
+                        PixelsToShield_List.Clear();
 
-        }
-            
-        //Nivel 3
-        if(segundosTotales>tL1+tL2 && segundosTotales<tL1+tL2+tL3){
-
-            if(!level3Started){
-                Level3();
-            }
-
-            //Si se ha terminado de eliminar los pixeles
-            if(level2Started){
-                if(currentPixelQ==0){
-
-                    Pixels_List.Clear();
-                    SP_ListL2 = new List<GameObject>(spawnPointsL2);
-                    PixelsToShield_List.Clear();
-
-                    CancelInvoke("DeleteAllPixels");
-                    CancelInvoke("CrearPixelL3");
-                    InvokeRepeating("CrearPixelL3", 0.0f, tDesaparicionL3+0.5f);
-                    InvokeRepeating("DeleteAllPixels", tDesaparicionL3,tDesaparicionL3);
-                    
-                    
-                    
+                        CancelInvoke("DeleteAllPixels");
+                        CancelInvoke("CrearPixelL2");
+                        InvokeRepeating("CrearPixelL2", 0.0f, tDesaparicionL2+0.5f);
+                        InvokeRepeating("DeleteAllPixels", tDesaparicionL2,tDesaparicionL2);
+                        
+                        
+                        
 
 
+
+                    }
 
                 }
 
             }
                 
-            
+            //Nivel 3
+            if(segundosTotales>tL1+tL2 && segundosTotales<tL1+tL2+tL3){
+
+                if(!level3Started){
+                    Level3();
+                }
+
+                //Si se ha terminado de eliminar los pixeles
+                if(level2Started){
+                    if(currentPixelQ==0){
+
+                        Pixels_List.Clear();
+                        SP_ListL2 = new List<GameObject>(spawnPointsL2);
+                        PixelsToShield_List.Clear();
+
+                        CancelInvoke("DeleteAllPixels");
+                        CancelInvoke("CrearPixelL3");
+                        InvokeRepeating("CrearPixelL3", 0.0f, tDesaparicionL3+0.5f);
+                        InvokeRepeating("DeleteAllPixels", tDesaparicionL3,tDesaparicionL3);
+                        
+                        
+                        
+
+
+
+                    }
+
+                }
+                    
                 
-        }
+                    
+            }
 
-        //Descanso
-        if(segundosTotales>tL1+tL2+tL3 && !freeTStarted){
+            //Descanso
+            if(segundosTotales>tL1+tL2+tL3 && !freeTStarted){
 
-            
-            Descanso();
-
-        }
-
-        //Nivel 4
-        if(segundosTotales>tL1+tL2+tL3+tDescanso && segundosTotales<tL1+tL2+tL3+tDescanso+tL4){
-
-            if(!level4Started){
-                Level4();
+                
+                Descanso();
 
             }
 
-            //Si se ha terminado de eliminar los pixeles
-            if(level4Started){
-                if(currentPixelQ==0){
-                    victory = true;
+            //Nivel 4
+            if(segundosTotales>tL1+tL2+tL3+tDescanso && segundosTotales<tL1+tL2+tL3+tDescanso+tL4){
 
-
+                if(!level4Started){
+                    Level4();
 
                 }
 
+                //Si se ha terminado de eliminar los pixeles
+                if(level4Started){
+                    if(currentPixelQ==0){
+                        victory = true;
+
+
+
+                    }
+
+                }
+                
+                
+
             }
-            
-            
-
-        }
-
-      
-
 
         
-        
-        //Checar si hay victoria
-        if(victory){
 
 
-            ada.SetActive(false);
-            TXTL4.SetActive(false);
-            TXTADA.SetActive(false);
-            TXTWin.SetActive(true);
-
-        }
-        
-        //Nivel ADA
-        if(segundosTotales>tL1+tL2+tL3+tDescanso+tL4 && !adaStarted && !victory){
             
-            Ada();
-
-        }
-
-        //Derrota
-        if(segundosTotales>tL1+tL2+tL3+tDescanso+tL4+tADA && !victory){
-            ada.SetActive(false);
-            TXTADA.SetActive(false);
-            TXTLose.SetActive(true);
-        }
-
-        //Fin de la sesion
-        if((segundosTotales>tL1+tL2+tL3+tDescanso+tL4+tADA || victory)  && !sessionOver){
-            sessionOver = true;
-
-            //Dar bonus por acabar la sesion
-
-            //Bonus por victoria
+            
+            //Checar si hay victoria
             if(victory){
 
-                scoreRed = scoreRed+2;
-                scoreGreen = scoreGreen+2;
-                scoreBlue = scoreBlue+2;
-                scoreYellow = scoreYellow+2;
-                scorePink = scorePink+2;
-                scorePurple = scorePurple+2;
-                scoreOrange = scoreOrange+2;
-                scoreCyan = scoreCyan+2;
 
+                ada.SetActive(false);
+                TXTL4.SetActive(false);
+                TXTADA.SetActive(false);
+                TXTWin.SetActive(true);
 
             }
-            else{
-                //Bonus por derrota
-                scoreRed++;
-                scoreGreen++;
-                scoreBlue++;
-                scoreYellow++;
-                scorePink++;
-                scorePurple++;
-                scoreOrange++;
-                scoreCyan++;
+            
+            //Nivel ADA
+            if(segundosTotales>tL1+tL2+tL3+tDescanso+tL4 && !adaStarted && !victory){
+                
+                Ada();
+
             }
-            
+
+            //Derrota
+            if(segundosTotales>tL1+tL2+tL3+tDescanso+tL4+tADA && !victory){
+                ada.SetActive(false);
+                TXTADA.SetActive(false);
+                TXTLose.SetActive(true);
+            }
+
+            //Fin de la sesion
+            if((segundosTotales>tL1+tL2+tL3+tDescanso+tL4+tADA || victory)  && !sessionOver){
+                sessionOver = true;
+
+                //Dar bonus por acabar la sesion
+
+                //Bonus por victoria
+                if(victory){
+
+                    scoreRed = scoreRed+2;
+                    scoreGreen = scoreGreen+2;
+                    scoreBlue = scoreBlue+2;
+                    scoreYellow = scoreYellow+2;
+                    scorePink = scorePink+2;
+                    scorePurple = scorePurple+2;
+                    scoreOrange = scoreOrange+2;
+                    scoreCyan = scoreCyan+2;
 
 
-            //Actualizar scores en BD
-            
-            BD.ActualizarPuntajes(scoreRed, scoreGreen, scoreBlue, scoreYellow, scorePink, scorePurple, scoreOrange, scoreCyan);
+                }
+                else{
+                    //Bonus por derrota
+                    scoreRed++;
+                    scoreGreen++;
+                    scoreBlue++;
+                    scoreYellow++;
+                    scorePink++;
+                    scorePurple++;
+                    scoreOrange++;
+                    scoreCyan++;
+                }
+                
 
-        }
 
-        //Comprueba si hubo un "click"
-        if(Input.GetMouseButtonDown(0)){
-               
-            Vector3 mousePos = Input.mousePosition;
+                //Actualizar scores en BD
+                
+                BD.ActualizarPuntajes(scoreRed, scoreGreen, scoreBlue, scoreYellow, scorePink, scorePurple, scoreOrange, scoreCyan);
 
-            Vector3 worldPoint = Camera.main.ScreenToWorldPoint(mousePos);
+            }
 
-            RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
-            if (hit.collider != null)
-            {
+            //Comprueba si hubo un "click"
+            if(Input.GetMouseButtonDown(0)){
+                
+                Vector3 mousePos = Input.mousePosition;
 
-                //Si se ha hecho click en un pixel
-                if(hit.collider.tag == "Enemy"){
-                    GameObject pixelGolpeado = hit.collider.gameObject;
-                    PixelController pController = pixelGolpeado.GetComponent<PixelController>();
-                    //Quitar vida al pixel, si se queda sin vida se elimina
-                    if(pController.QuitarVida()==0){
-                        
-                        GameObject pixelParent = pixelGolpeado.transform.parent.gameObject;
-                        Pixels_List.Remove(pixelGolpeado);
-                        PixelsToShield_List.Remove(pixelGolpeado);
-                        currentPixelQ--;
-                        SP_List.Add(pixelParent);//Para nivel 1
-                        int idPixel = pController.DestruirPixel();
-                        
-                        switch(idPixel){
-                            case 1:
-                                scoreRed++;
-                                break;
-                            case 2:
-                                scoreGreen++;
-                                break;
-                            case 3:
-                                scoreBlue++;
-                                break;
-                            case 4:
-                                scoreYellow++;
-                                break;
-                            case 5:
-                                scorePink++;
-                                break;
-                            case 6:
-                                scorePurple++;
-                                break;
-                            case 7:
-                                scoreOrange++;
-                                break;
-                            case 8:
-                                scoreCyan++;
-                                break;
-                            case 9:
-                                scoreRed++;
-                                scoreGreen++;
-                                scoreBlue++;
-                                scoreYellow++;
-                                scorePink++;
-                                scorePurple++;
-                                scoreOrange++;
-                                scoreCyan++;
-                                break;
+                Vector3 worldPoint = Camera.main.ScreenToWorldPoint(mousePos);
+
+                RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
+                if (hit.collider != null)
+                {
+
+                    //Si se ha hecho click en un pixel
+                    if(hit.collider.tag == "Enemy"){
+                        GameObject pixelGolpeado = hit.collider.gameObject;
+                        PixelController pController = pixelGolpeado.GetComponent<PixelController>();
+                        //Quitar vida al pixel, si se queda sin vida se elimina
+                        if(pController.QuitarVida()==0){
+                            
+                            GameObject pixelParent = pixelGolpeado.transform.parent.gameObject;
+                            Pixels_List.Remove(pixelGolpeado);
+                            PixelsToShield_List.Remove(pixelGolpeado);
+                            currentPixelQ--;
+                            SP_List.Add(pixelParent);//Para nivel 1
+                            int idPixel = pController.DestruirPixel();
+                            
+                            switch(idPixel){
+                                case 1:
+                                    scoreRed++;
+                                    break;
+                                case 2:
+                                    scoreGreen++;
+                                    break;
+                                case 3:
+                                    scoreBlue++;
+                                    break;
+                                case 4:
+                                    scoreYellow++;
+                                    break;
+                                case 5:
+                                    scorePink++;
+                                    break;
+                                case 6:
+                                    scorePurple++;
+                                    break;
+                                case 7:
+                                    scoreOrange++;
+                                    break;
+                                case 8:
+                                    scoreCyan++;
+                                    break;
+                                case 9:
+                                    scoreRed++;
+                                    scoreGreen++;
+                                    scoreBlue++;
+                                    scoreYellow++;
+                                    scorePink++;
+                                    scorePurple++;
+                                    scoreOrange++;
+                                    scoreCyan++;
+                                    break;
+                            }
+                            
+                            //SP_ListL2.Add(pixelParent); // Para nivel 2 y 3
+
                         }
+                        else{
+                            //Si no se ha quedado sin vida, se agrega a la lista de pixeles para dar escudo
+                            PixelsToShield_List.Add(pixelGolpeado);
+
+                        }
+
+                                        
+                    }
+                    //Si se ha hecho click en el glitch
+                    if(hit.collider.tag == "Glitch"){
+                        //quitar vida al glitch
+                        //Dar puntos si la vida es mayor a 0
+                        if(glitchC.QuitarVida()==0){
+                            scoreRed++;
+                            scoreGreen++;
+                            scoreBlue++;
+                            scoreYellow++;
+                            scorePink++;
+                            scorePurple++;
+                            scoreOrange++;
+                            scoreCyan++;
+
+                        }
+
+                    }
+                    //Si se ha hecho click en Ada
+                    if(hit.collider.tag == "Ada"){
                         
-                        //SP_ListL2.Add(pixelParent); // Para nivel 2 y 3
+                        //Dar vida a Ada
+                        if(adaC.DarVida()){
+                            //Si retorna true, se ha ganado
+                            victory = true;
+                            
+                        }
 
                     }
-                    else{
-                        //Si no se ha quedado sin vida, se agrega a la lista de pixeles para dar escudo
-                        PixelsToShield_List.Add(pixelGolpeado);
-
-                    }
-
-                                    
-                }
-                //Si se ha hecho click en el glitch
-                if(hit.collider.tag == "Glitch"){
-                    //quitar vida al glitch
-                    //Dar puntos si la vida es mayor a 0
-                    if(glitchC.QuitarVida()==0){
-                        scoreRed++;
-                        scoreGreen++;
-                        scoreBlue++;
-                        scoreYellow++;
-                        scorePink++;
-                        scorePurple++;
-                        scoreOrange++;
-                        scoreCyan++;
-
-                    }
-
-                }
-                //Si se ha hecho click en Ada
-                if(hit.collider.tag == "Ada"){
-                    
-                    //Dar vida a Ada
-                    if(adaC.DarVida()){
-                        //Si retorna true, se ha ganado
-                        victory = true;
-                        
-                    }
-
                 }
             }
+
         }
+        
+
+       
         
     }
 

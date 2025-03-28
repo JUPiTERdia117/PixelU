@@ -11,11 +11,20 @@ public class MySQL : MonoBehaviour
 {
     private string server = "localhost";
     private string database = "pixel_universe";
-    private string user = "root";
-    private string password = "root";
+    [SerializeField] private string user = "user";
+    [SerializeField] private string password = "user";
     private string connectionString;
     private MySqlConnection conn;
     List<string> usuariosA;
+
+    public bool gameAllowed = false; // Variable para controlar el acceso al juego
+
+    public TMP_InputField inputField; 
+
+    [SerializeField] GameObject idErrTXT;
+
+    // M�todos para guardar los valores de los campos de texto
+    public void UpdateServerDirection(string input) => server = input;// Colocar en un Inputfield en el apartado OnEndEdit() para que actualice el valor de la variable en caso de ser necesario.
 
     void Start()
     {
@@ -23,13 +32,13 @@ public class MySQL : MonoBehaviour
         conn = new MySqlConnection(connectionString);
         AbrirConexion();
 
-        usuariosA = ObtenerUsuariosAsignados(0);
-
-        foreach (string usuario in usuariosA)
-        {
-            Debug.Log(usuario);
-        }
+        inputField.onSubmit.AddListener(EnviarTexto);
+        
+        
+        
     }
+
+    
 
     private void AbrirConexion()
     {
@@ -67,6 +76,50 @@ public class MySQL : MonoBehaviour
         }
     }
 
+    // Colocar m�todo en un bot�n para probar la conexi�n a la base de datos.
+    public void TestBD()
+    {
+        try
+        {
+            AbrirConexion();
+            cerrarBD();
+            Debug.Log("Conexi�n a la base de datos exitosa.");
+        }
+        catch (MySqlException ex)
+        {
+            Debug.LogError($"Error al abrir la conexi�n: {ex.Message}");
+        }
+    }
+
+    void cerrarBD()
+    {
+        if (conn != null && conn.State == ConnectionState.Open)
+        {
+            Debug.Log("Tiempo de conexi�n a la base de datos cerrada.");
+            conn.Close();
+            conn.Dispose();
+        }
+    }
+
+    void EnviarTexto(string texto)
+    {
+       if (int.TryParse(texto, out int value))
+        {
+            
+           usuariosA = ObtenerUsuariosAsignados(value);
+
+            foreach (string usuario in usuariosA)
+            {
+                Debug.Log(usuario);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Sin usuarios asignados.");
+            
+        }
+    }
+
     List<string> ObtenerUsuariosAsignados(int masterId)
     {
         List<string> usuarios = new List<string>();
@@ -86,10 +139,24 @@ public class MySQL : MonoBehaviour
                     }
                 }
             }
+            
         }
         catch (MySqlException ex)
         {
             Debug.LogError($"Error al obtener usuarios asignados: {ex.Message}");
+        }
+         
+        if(usuarios.Count == 0)
+        {
+            Debug.LogWarning("No se encontraron usuarios asignados para el MasterId proporcionado.");
+            gameAllowed = false; // Permitir el acceso al juego si la consulta se ejecuta correctamente
+             
+            idErrTXT.SetActive(true); // Mostrar el mensaje de error
+
+        }
+        else
+        {
+            gameAllowed = true; // Permitir el acceso al juego si se encontraron usuarios
         }
         
 
