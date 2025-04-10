@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 7803618600542623926}
   - component: {fileID: 3876083778279088635}
   m_Layer: 0
-  m_Name: Pixel(Original)
+  m_Name: PixelBlanco(Original)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -261,6 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9327653a1d227a40876ff9a94b7770e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Id: 0
   vida: 1
   shieldSprite: {fileID: 7963963779147256933}
 --- !u!1 &7459498935727599841

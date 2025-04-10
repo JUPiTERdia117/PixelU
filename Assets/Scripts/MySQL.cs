@@ -15,13 +15,15 @@ public class MySQL : MonoBehaviour
     [SerializeField] private string password = "user";
     private string connectionString;
     private MySqlConnection conn;
-    List<string> usuariosA;
+    public List<string> usuariosA, coloresA;
 
     public bool gameAllowed = false; // Variable para controlar el acceso al juego
 
     public TMP_InputField inputField; 
 
-    [SerializeField] GameObject idErrTXT;
+    [SerializeField] GameObject idErrTXT, conexionDBTXT, errorBDTXT;
+
+    int masterId = 0;
 
     // M�todos para guardar los valores de los campos de texto
     public void UpdateServerDirection(string input) => server = input;// Colocar en un Inputfield en el apartado OnEndEdit() para que actualice el valor de la variable en caso de ser necesario.
@@ -48,6 +50,8 @@ public class MySQL : MonoBehaviour
             {
                 conn.Open();
                 Debug.Log("Conexi�n abierta exitosamente con la base de datos local.");
+                errorBDTXT.SetActive(false);
+                conexionDBTXT.SetActive(true);
             }
             catch (MySqlException ex)
             {
@@ -108,10 +112,23 @@ public class MySQL : MonoBehaviour
             
            usuariosA = ObtenerUsuariosAsignados(value);
 
-            foreach (string usuario in usuariosA)
-            {
-                Debug.Log(usuario);
-            }
+           if(usuariosA!=null){
+                masterId = value; // Guardar el masterId para su uso posterior
+                coloresA = ObtenerColoresAsignados(value);
+
+                foreach (string usuario in usuariosA)
+                {
+                    Debug.Log(usuario);
+                }
+
+                foreach (string color in coloresA)
+                {
+                    Debug.Log(color);
+                }
+           }
+           
+
+            
         }
         else
         {
@@ -123,6 +140,8 @@ public class MySQL : MonoBehaviour
     List<string> ObtenerUsuariosAsignados(int masterId)
     {
         List<string> usuarios = new List<string>();
+
+        
         AbrirConexion();
 
         try
@@ -149,21 +168,51 @@ public class MySQL : MonoBehaviour
         if(usuarios.Count == 0)
         {
             Debug.LogWarning("No se encontraron usuarios asignados para el MasterId proporcionado.");
-            gameAllowed = false; // Permitir el acceso al juego si la consulta se ejecuta correctamente
+            gameAllowed = false; //No permitir acceso al juego
              
             idErrTXT.SetActive(true); // Mostrar el mensaje de error
+
+            return null; // Retornar nulo si no se encontraron usuarios
 
         }
         else
         {
             gameAllowed = true; // Permitir el acceso al juego si se encontraron usuarios
+            return usuarios;
         }
         
 
-        return usuarios;
+
     }
 
-    public void ActualizarPuntajes(int scoreRed, int scoreGreen, int scoreBlue, int scoreYellow, int scorePink, int scorePurple, int scoreOrange, int scoreCyan)
+    List<string> ObtenerColoresAsignados(int masterId)
+    {
+        List<string> colores = new List<string>();
+
+        try
+        {
+            string query = "SELECT Color FROM jugador WHERE id_master_actual = @masterId;";
+            using (MySqlCommand cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@masterId", masterId);
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        colores.Add(reader.GetString("Color"));
+                    }
+                }
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Debug.LogError($"Error al obtener colores asignados: {ex.Message}");
+        }
+
+        return colores;
+    }
+
+    public void ActualizarPuntajes(int scoreRed, int scoreGreen, int scoreBlue, int scoreYellow, int scorePink, int scorePurple, int scoreOrange, int scoreCyan, int  scoreWhite, int scoreBrown)
     {
         Dictionary<string, int> colorScores = new Dictionary<string, int>
         {
@@ -174,18 +223,24 @@ public class MySQL : MonoBehaviour
             { "Rosa", scorePink },
             { "Morado", scorePurple },
             { "Naranja", scoreOrange },
-            { "Cyan", scoreCyan }
+            { "Cyan", scoreCyan },
+            { "Blanco", scoreWhite },
+            { "Cafe", scoreBrown }
+            //{ "Comodin", scoreWildcard }
+            
         };
 
         foreach (var colorScore in colorScores)
         {
             try
             {
-                string query = "UPDATE jugador SET `Pts_Juego1-New` = @score WHERE Color = @color;";
+                // Actualizar puntaje solo para jugadores asignados al masterId
+                string query = "UPDATE jugador SET `Pts_Juego1-New` = @score WHERE Color = @color AND id_master_actual = @masterId;";
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@score", colorScore.Value);
                     cmd.Parameters.AddWithValue("@color", colorScore.Key);
+                    cmd.Parameters.AddWithValue("@masterId", masterId);
                     int rowsAffected = cmd.ExecuteNonQuery();
 
                     if (rowsAffected > 0)
@@ -194,15 +249,16 @@ public class MySQL : MonoBehaviour
                     }
                     else
                     {
-                        Debug.LogWarning($"No se encontró ningún jugador con el color {colorScore.Key}");
+                        Debug.LogWarning($"No se encontró ningún jugador con el color {colorScore.Key} asignado al masterId {masterId}");
                     }
                 }
 
                 // Comparar y actualizar Pts_Juego1-Record si es necesario
-                string querySelect = "SELECT `Pts_Juego1-Record` FROM jugador WHERE Color = @color;";
+                string querySelect = "SELECT `Pts_Juego1-Record` FROM jugador WHERE Color = @color AND id_master_actual = @masterId;";
                 using (MySqlCommand cmdSelect = new MySqlCommand(querySelect, conn))
                 {
                     cmdSelect.Parameters.AddWithValue("@color", colorScore.Key);
+                    cmdSelect.Parameters.AddWithValue("@masterId", masterId);
                     object result = cmdSelect.ExecuteScalar();
 
                     if (result != null && result != DBNull.Value)
@@ -210,11 +266,12 @@ public class MySQL : MonoBehaviour
                         int currentRecord = Convert.ToInt32(result);
                         if (colorScore.Value > currentRecord)
                         {
-                            string queryUpdateRecord = "UPDATE jugador SET `Pts_Juego1-Record` = @score WHERE Color = @color;";
+                            string queryUpdateRecord = "UPDATE jugador SET `Pts_Juego1-Record` = @score WHERE Color = @color AND id_master_actual = @masterId;";
                             using (MySqlCommand cmdUpdateRecord = new MySqlCommand(queryUpdateRecord, conn))
                             {
                                 cmdUpdateRecord.Parameters.AddWithValue("@score", colorScore.Value);
                                 cmdUpdateRecord.Parameters.AddWithValue("@color", colorScore.Key);
+                                cmdUpdateRecord.Parameters.AddWithValue("@masterId", masterId);
                                 cmdUpdateRecord.ExecuteNonQuery();
                                 Debug.Log($"Nuevo record para el color {colorScore.Key}: {colorScore.Value}");
                             }

@@ -39,6 +39,8 @@ public class GM : MonoBehaviour
 
     bool level1Started , level2Started ,level3Started , freeTStarted , level4Started, adaStarted = false; // Variables que indican si cada nivel ha empezado
 
+  
+
     GlitchController glitchC; //Referencia a script de glitch
 
     AdaController adaC; //Referencia a script de ada
@@ -51,14 +53,15 @@ public class GM : MonoBehaviour
 
     bool victory = false;//Variable que indica si se ha ganado
 
-    int scoreRed, scoreGreen, scoreBlue, scoreYellow, scorePink, scorePurple, scoreOrange, scoreCyan = 0; //Puntajes de cada jugador
+    int scoreRed, scoreGreen, scoreBlue, scoreYellow, scorePink, scorePurple, scoreOrange, scoreCyan, scoreWhite, scoreBrown = 0; //Puntajes de cada jugador
 
     bool sessionOver = false; //Variable que indica si la sesion ha terminado
 
     MySQL BD;
 
     //Variables temporales para pruebas de BD   
-    [SerializeField] GameObject scoreRedTXT, scoreGreenTXT, scoreBlueTXT, scoreYellowTXT, scorePinkTXT, scorePurpleTXT, scoreOrangeTXT, scoreCyanTXT; //Textos de puntajes
+    [SerializeField] GameObject scoreRedTXT, scoreGreenTXT, scoreBlueTXT, scoreYellowTXT, scorePinkTXT, scorePurpleTXT, scoreOrangeTXT, scoreCyanTXT,
+    scoreWhiteTXT, scoreBrownTXT; //Textos de puntajes
 
 
 
@@ -90,6 +93,10 @@ public class GM : MonoBehaviour
 
         if(BD.gameAllowed){
 
+            
+            
+            
+
             inputField.SetActive(false);
             blackScreen.SetActive(false);
             TXTInputF.SetActive(false);
@@ -116,7 +123,9 @@ public class GM : MonoBehaviour
             scorePurpleTXT.GetComponent<TextMeshProUGUI>().text = "Purple: " + scorePurple.ToString();
             scoreOrangeTXT.GetComponent<TextMeshProUGUI>().text = "Orange: " + scoreOrange.ToString();
             scoreCyanTXT.GetComponent<TextMeshProUGUI>().text = "Cyan: " + scoreCyan.ToString();
-                
+            scoreWhiteTXT.GetComponent<TextMeshProUGUI>().text = "White: " + scoreWhite.ToString();
+            scoreBrownTXT.GetComponent<TextMeshProUGUI>().text = "Brown: " + scoreBrown.ToString();
+            //scoreWildcardTXT.GetComponent<TextMeshProUGUI>().text = "Wildcard: " + scoreWildcard.ToString();  
         
 
 
@@ -263,7 +272,7 @@ public class GM : MonoBehaviour
 
                 //Bonus por victoria
                 if(victory){
-
+                    scoreWhite = scoreWhite+2;
                     scoreRed = scoreRed+2;
                     scoreGreen = scoreGreen+2;
                     scoreBlue = scoreBlue+2;
@@ -272,11 +281,12 @@ public class GM : MonoBehaviour
                     scorePurple = scorePurple+2;
                     scoreOrange = scoreOrange+2;
                     scoreCyan = scoreCyan+2;
-
+                    scoreBrown = scoreBrown+2;
 
                 }
                 else{
                     //Bonus por derrota
+                    scoreWhite++;
                     scoreRed++;
                     scoreGreen++;
                     scoreBlue++;
@@ -285,13 +295,14 @@ public class GM : MonoBehaviour
                     scorePurple++;
                     scoreOrange++;
                     scoreCyan++;
+                    scoreBrown++;
                 }
                 
 
 
                 //Actualizar scores en BD
                 
-                BD.ActualizarPuntajes(scoreRed, scoreGreen, scoreBlue, scoreYellow, scorePink, scorePurple, scoreOrange, scoreCyan);
+                BD.ActualizarPuntajes(scoreRed, scoreGreen, scoreBlue, scoreYellow, scorePink, scorePurple, scoreOrange, scoreCyan, scoreWhite, scoreBrown);
 
             }
 
@@ -321,6 +332,9 @@ public class GM : MonoBehaviour
                             int idPixel = pController.DestruirPixel();
                             
                             switch(idPixel){
+                                case 0:
+                                    scoreWhite++;
+                                    break;
                                 case 1:
                                     scoreRed++;
                                     break;
@@ -346,6 +360,12 @@ public class GM : MonoBehaviour
                                     scoreCyan++;
                                     break;
                                 case 9:
+                                    scoreBrown++;
+                                    break;
+                                //Comodin
+                                //Se le da puntaje a todos los colores
+                                case 10:
+                                    scoreWhite++;
                                     scoreRed++;
                                     scoreGreen++;
                                     scoreBlue++;
@@ -354,6 +374,7 @@ public class GM : MonoBehaviour
                                     scorePurple++;
                                     scoreOrange++;
                                     scoreCyan++;
+                                    scoreBrown++;
                                     break;
                             }
                             
@@ -373,6 +394,7 @@ public class GM : MonoBehaviour
                         //quitar vida al glitch
                         //Dar puntos si la vida es mayor a 0
                         if(glitchC.QuitarVida()==0){
+                            scoreWhite++;
                             scoreRed++;
                             scoreGreen++;
                             scoreBlue++;
@@ -381,6 +403,7 @@ public class GM : MonoBehaviour
                             scorePurple++;
                             scoreOrange++;
                             scoreCyan++;
+                            scoreBrown++;
 
                         }
 
@@ -588,6 +611,8 @@ public class GM : MonoBehaviour
 
             pixelSP = randomObject.GetComponent<PixelSpawner>();
 
+            pixelSP.SetColors(BD.coloresA);
+
             GameObject pixelCreado = pixelSP.SpawnPixel();
 
             SP_List.RemoveAt(randomIndex);
@@ -634,6 +659,8 @@ public class GM : MonoBehaviour
                         GameObject randomObject = SP_ListL2[randomIndex]; // Obtener el objeto correspondiente
 
                         pixelSP = randomObject.GetComponent<PixelSpawner>();
+
+                        pixelSP.SetColors(BD.coloresA);
 
                         GameObject pixelCreado = pixelSP.SpawnPixel();
 
@@ -696,6 +723,8 @@ public class GM : MonoBehaviour
                         GameObject randomObject = SP_ListL2[randomIndex]; // Obtener el objeto correspondiente
 
                         pixelSP = randomObject.GetComponent<PixelSpawner>();
+
+                        pixelSP.SetColors(BD.coloresA);
 
                         GameObject pixelCreado = pixelSP.SpawnPixel();
 
