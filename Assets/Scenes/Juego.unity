@@ -5045,12 +5045,12 @@ MonoBehaviour:
   - {fileID: 406435546}
   - {fileID: 1749331102}
   - {fileID: 189133455}
-  tL1: 20
-  tL2: 20
-  tL3: 20
+  tL1: 10
+  tL2: 10
+  tL3: 10
   tDescanso: 6
-  tL4: 25
-  tADA: 20
+  tL4: 10
+  tADA: 10
   level1Q: 12
   level2Q: 8
   level3Q: 16
@@ -5114,8 +5114,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d92028f6339944ccb87ecf73e0d3fc80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  user: user
-  password: user
   usuariosA: []
   coloresA: []
   gameAllowed: 0

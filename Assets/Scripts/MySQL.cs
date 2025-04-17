@@ -11,8 +11,8 @@ public class MySQL : MonoBehaviour
 {
     private string server = "localhost";
     private string database = "pixel_universe";
-    [SerializeField] private string user = "user";
-    [SerializeField] private string password = "user";
+    private string user = "user";
+    private string password = "user";
     private string connectionString;
     private MySqlConnection conn;
     public List<string> usuariosA, coloresA;
