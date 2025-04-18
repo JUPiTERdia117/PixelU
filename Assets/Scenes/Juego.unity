@@ -1878,7 +1878,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 17
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -5045,12 +5045,12 @@ MonoBehaviour:
   - {fileID: 406435546}
   - {fileID: 1749331102}
   - {fileID: 189133455}
-  tL1: 10
-  tL2: 10
-  tL3: 10
+  tL1: 15
+  tL2: 15
+  tL3: 15
   tDescanso: 6
-  tL4: 10
-  tADA: 10
+  tL4: 20
+  tADA: 20
   level1Q: 12
   level2Q: 8
   level3Q: 16
